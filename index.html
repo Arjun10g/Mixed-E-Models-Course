@@ -1,0 +1,2472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script>
+        MathJax.Hub.Config({
+            extensions: ["tex2jax.js"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']],
+                processEscapes: true
+            },
+            "HTML-CSS": { scale: 90 },
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js" integrity="sha512-cOH8ndwGgPo+K7pTvMrqYbmI8u8k6Sho3js0gOqVWTmQMlLIi6TbqGWRTpf1ga8ci9H3iPsvDLr4X7xwhC/+DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js" integrity="sha512-AMl4wfwAmDM1lsQvVBBRHYENn1FR8cfOTpt8QVbb/P55mYOdahHD4LmHM1W55pNe3j/3od8ELzPf/8eNkkjISQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Observer.min.js" integrity="sha512-7xTD1meeGGoAzwZKA0Z8YelV3qAvRltuwACWXpnxtneF7VAMztOTAi3t4laVSaE4Znq4LMPeGUIYWEvKEk5r3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js" integrity="sha512-S6SXKUZ11xkCoD/UuhdXG4B4iiCXng+xW2KCx0lgfQqmdqtjqGgm4WChdYIhO1F/CmH21vnkSUvPEgXNgDwkjg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <div class="cross">
+        <svg width="60px" class="close" height="60px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM15.36 14.3C15.65 14.59 15.65 15.07 15.36 15.36C15.21 15.51 15.02 15.58 14.83 15.58C14.64 15.58 14.45 15.51 14.3 15.36L12 13.06L9.7 15.36C9.55 15.51 9.36 15.58 9.17 15.58C8.98 15.58 8.79 15.51 8.64 15.36C8.35 15.07 8.35 14.59 8.64 14.3L10.94 12L8.64 9.7C8.35 9.41 8.35 8.93 8.64 8.64C8.93 8.35 9.41 8.35 9.7 8.64L12 10.94L14.3 8.64C14.59 8.35 15.07 8.35 15.36 8.64C15.65 8.93 15.65 9.41 15.36 9.7L13.06 12L15.36 14.3Z"></path> </g></svg>
+        <svg width="60px" class="open" height="60px" viewBox="0 -1 12 12" id="meteor-icon-kit__regular-bars-s" fill="black" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.85714 2C0.38376 2 0 1.55228 0 1C0 0.44772 0.38376 0 0.85714 0H11.1429C11.6162 0 12 0.44772 12 1C12 1.55228 11.6162 2 11.1429 2H0.85714zM0.85714 6C0.38376 6 0 5.5523 0 5C0 4.4477 0.38376 4 0.85714 4H11.1429C11.6162 4 12 4.4477 12 5C12 5.5523 11.6162 6 11.1429 6H0.85714zM0.85714 10C0.38376 10 0 9.5523 0 9C0 8.4477 0.38376 8 0.85714 8H11.1429C11.6162 8 12 8.4477 12 9C12 9.5523 11.6162 10 11.1429 10H0.85714z"></path></g></svg>
+    </div>
+
+
+    <div class="nav">
+            <p>Review of Linear Models</p>
+            <p>Incorporating Random Effects</p>
+            <p>More Random Effects</p>
+            <p>Longitudnal Models and Incorporating GLM and Bayesian approaches</p>
+            <p>Functions/Key Tables</p>
+    </div>
+
+    <div class="content1">
+        <h1 class = 'head'>Linear Regression</h1>
+        <ol class = "toc">
+            <li><a href="#link1">General Ideas behind Linear Regression</a></li>
+            <li><a href="#link2">Assessing the accuracy of Linear Regression Coefficients</a></li>
+            <li><a href="#link3">Assessing the overall accuracy of the linear model</a></li>
+            <li><a href="#link4">Prediction Intervals</a></li>
+            <li><a href="#link5">Categorical Predictors</a></li>
+            <li><a href="#link6">More than 2 levels</a></li>
+            <li><a href="#link7">Removing the Additive Assumption</a></li>
+            <li><a href="#link8">Interaction between Categorical and Continous Predictor</a></li>
+            <li><a href="#link9">Potential Problems</a></li>
+            <li><a href="#link10">Fit Model using R</a></li>
+        </ol>
+        <h2 id = "link1">General Ideas behind Linear Regression</h2>
+        <p class="para">Linear regression is a fundamental statistical method used to model the relationship between a dependent variable and one or more independent variables. Linear regression assumes that there is a linear relationship between the outcome variable (often denoted as \(y\)) and the independent variables (denoted as \(x_{1}, x_{2}, x_{3},..., x_{n}\)). This means the change in outcome variable is expected to be directly proportional to the change in predictors. </p>
+        <p class="para">In simple linear regression (one independent variable), the model is represented as - </p>
+        <p class="para">\[y = \beta_{0} + \beta_{1}x + \epsilon\]</p>
+        <p class="para">Here, <span id ="red">\(\beta_{0}\)</span> and <span id = "green">\(\beta_{1}\)</span> are the intercept and slope of the regression line, respectively. <span id = "red">The intercept represents the expected mean value of the outcome variable when all predictors are equal to zero.</span><span id="green"> The slope represents the expected change in the outcome variable for a one-unit change in the predictor variable</span>. The term \(\epsilon\) represents the random error or noise in the model. </p>
+        <p class="para">For every outcome value, the model has a predicted value and the difference between these values is knows as a residual. </p>
+        <p class="para">\[e_{i} = y_{i} - \hat{y}_{i}\]</p>
+        <div class="plot"><img src="image.jpeg" alt=""></div>
+        <p class="para">While there are multiple approaches that can help minimize these residuals, we typically rely on Least Squares.</p>
+        <p class="para">The least squares approach chooses the coefficients \(\beta_{0}\) and \(\beta_{1}\) to minimize the sum of squared residuals. </p>
+        <p class="para">\[RSS = e_{1}^{2} + e_{2}^{2} + e_{3}^{2} + ..... + e_{n}^{2}\]</p>
+        <h2 id = "link2">Assessing the accuracy of Linear Regression Coefficients</h2>
+        <p class="para">The accuracy of the coefficient estimates depends on the amount of variability in the data. The variability of the coefficient estimates can be quantified using their standard errors. <span id="red">The standard error of the coefficient estimates is an estimate of the standard deviation of the coefficient estimates if we repeatedly estimated the coefficients using different datasets.</span> </p>
+        <p class="para">However, in most cases we do not have access to multiple samples. This is where we make certain assumptions regarding the model such as linearity, independence of errors, normality of errors, and homoscedasticity (constant variance of errors). In large samples, due to the central limit theorem, the distribution of the regression coefficients tends to be normal even if the errors are not perfectly normal. This makes the standard error estimates robust in large samples. </p>
+        <p class="para">\[SE(\beta_0) = \sigma \sqrt{\frac{1}{n} + \frac{\bar{x}^2}{\sum{(x_i - \bar{x})^2}}}\]</p>
+        <p class="para">\[SE(\beta_1) = \frac{\sigma}{\sqrt{\sum{(x_i - \bar{x})^2}}}\]</p>
+        <ul class="list">
+            <li>Here, \(sigma\) refers to the standard deviation of the error term.</li>
+            <li>n represents the number of observations</li>
+            <li>\(\sum{(x_i - \bar{x})^2}\) represents the sum of squared deviations of the predictor variable from its mean. </li>
+        </ul>
+        <p class="para">Hence, it is clear that the standard errors are a function of the sample size and the error variance. </p>
+        <p class="para">The standard errors can be used to compute confidence intervals. <span id="red">A 95% confidence interval is defined as an interval that will contain the true population value 95% of the time if we were to repeatedly sample the population. </span> </p>
+        <p class="para">The 95% confidence interval for \(\beta_{1}\) is given by - </p>
+        <p class="para">\[\hat{\beta_{1}} \pm 2 \times SE(\hat{\beta_{1}})\]</p>
+        <p class="para">The 95% confidence interval for \(\beta_{0}\) is given by - </p>
+        <p class="para">\[\hat{\beta_{0}} \pm 2 \times SE(\hat{\beta_{0}})\]</p>
+        <div class="plot"><img src="https://clauswilke.com/dataviz/visualizing_uncertainty_files/figure-html/ci-frequentist-expl-1.png" alt=""></div>
+        <p class="para">The standard errors can also be used to perform hypothesis tests on the coefficients. <span id="red">The most common hypothesis test involves testing the null hypothesis of no relationship between the predictor and the outcome variable against the alternative hypothesis of a non-zero relationship. </span> </p>
+        <p class="para">The test statistic for testing the null hypothesis that \(\beta_{1}\) is equal to zero is given by - </p>
+        <p class="para">\[t = \frac{\hat{\beta_{1}} - 0}{SE(\hat{\beta_{1}})}\]</p>
+        <p class="para">The test statistic for testing the null hypothesis that \(\beta_{0}\) is equal to zero is given by - </p>
+        <p class="para">\[t = \frac{\hat{\beta_{0}} - 0}{SE(\hat{\beta_{0}})}\]</p>
+        <p class="para">The p-value for the test is calculated as the probability of observing a value of the test statistic at least as extreme as the one observed, assuming the null hypothesis is true. </p>
+        <p class="para">The p-value for the test of \(\beta_{1}\) is given by - </p>
+        <p class="para">\[p-value = P(|t| > |t_{obs}|)\]</p>
+        <p class="para">The p-value for the test of \(\beta_{0}\) is given by - </p>
+        <p class="para">\[p-value = P(|t| > |t_{obs}|)\]</p>
+        <p class="para">The p-value can be used to determine whether or not there is a relationship between the predictor and the outcome variable. If the p-value is less than the significance level (typically 0.05), we reject the null hypothesis and conclude that there is a relationship between the predictor and the outcome variable. </p>
+        <div class="plot"><img src="https://www.gigacalculator.com/articles/wp-content/uploads/2020/12/p-value-significance-level-explained.png" alt=""></div>
+        <h2 id = "link3">Assessing the overall accuracy of the linear model</h2>
+        <p class="para">The accuracy of the linear model can be assessed using the residual standard error (RSE) and the R-squared statistic. </p>
+        <p class="para">The residual standard error (RSE) is an estimate of the standard deviation of the error term. speaking, it is the average amount that the response will deviate from the true regression line. Since RSE is a measure of lack of fit, it is rarely used despite it's usefulness. It is given by -</p>
+        <p class="para">\[RSE = \sqrt{\frac{1}{n-2}RSS} = \sqrt{\frac{1}{n-2}\sum_{i=1}^{n}(y_{i} - \hat{y}_{i})^{2}}\]</p>
+        <p class="para">The R-squared statistic is a measure of the proportion of variability in the outcome variable that can be explained using the predictor variable. It is given by - </p>
+        <p class="para">\[R^{2} = \frac{TSS - RSS}{TSS} = 1 - \frac{RSS}{TSS}\]</p>
+        <p class="para">Here, TSS represents the total sum of squares, which is the sum of squared deviations of the outcome variable from its mean. </p>
+        <p class="para">\[TSS = \sum_{i=1}^{n}(y_{i} - \bar{y})^{2}\]</p>
+        <h2 id = "link4">Prediction Intervals</h2>
+        <p class="para">\[\text{SE of prediction} = \sqrt{\text{RSE}^2 + \text{SE}(\hat{y})^2}\]</p>
+        <p class="para">Here, <span id = "red">RSE (Residual Standard Error)</span> represents the standard deviation of the residuals, which is an estimate of the standard deviation of the error term. <span id = "red">\(SE(\hat{y})\)</span> is the standard error of the mean prediction at x, calculated similarly to the standard error for the regression coefficients.</p>
+        <p class="para"><span id="green">Prediction intervals</span> in the context of linear regression are used to estimate the range within which we expect future observations to fall with a certain level of confidence, given the predictor values. These intervals are wider than confidence intervals for the regression line itself because they take into account not only the uncertainty of the regression estimate but also the variability (or "noise") in the data.</p>
+        <p class="para">\[\hat{y} \pm t_{\frac{\alpha}{2}, \, n-2} \times \text{SE of prediction}\]</p>
+        <p class="para">Here, \(\hat{y}\) represents the predicted value of the outcome variable, \(t_{\frac{\alpha}{2}, \, n-2}\) represents the critical value of the t-distribution with n-2 degrees of freedom and \(\text{SE of prediction}\) represents the standard error of the prediction. </p>
+        <h2 id = "link5">Categorical Predictors</h2>
+        <p class="para">Categorical predictors can be incorporated into a linear model using dummy variables. A dummy variable is a numerical variable used to represent subgroups of the sample in your study. In research design, a dummy variable is often used to distinguish different treatment groups. In linear regression, the dummy variable serves as a placeholder for variables whose values are not numbers. </p>
+        <p class="para">For example, if we have a categorical variable with three levels, we can create two dummy variables. The first dummy variable would take the value 1 if the observation belongs to the first level and 0 otherwise. The second dummy variable would take the value 1 if the observation belongs to the second level and 0 otherwise. </p>
+        <p class="para">The model is given by - </p>
+        <p class="para">\(x_i = 
+            \begin{cases} 
+            1 & \text{if $i^{th}$ person owns a house} \\
+            0 & \text{if $i^{th}$ person does not own a house}
+            \end{cases}
+            \)
+        </p>
+        <br><br>
+        
+        <p class="para">
+            \(y_i = \beta_0 + \beta_1 x_i + \epsilon_i =  \begin{cases}  \beta_0 + \beta_1 + \epsilon_i & \text{if $i^{th}$ person owns a house} \\ \beta_0 + \epsilon_i & \text{if $i^{th}$ person does not} \end{cases}\)
+
+        </p>
+
+        <p class="para">the predictor variable is binary, indicating whether or not an individual owns a house. This type of model is often used in situations where the variable of interest is categorical, typically with two categories represented as 0 and 1.</p>
+
+        <div class="plot"><img src="image2.jpeg" alt=""></div>
+        <h2 id = "link6">More than 2 levels</h2>
+        <p class="para">When the categorical variable has more than two levels, we can create additional dummy variables. For example, if we have a categorical variable with three levels, we can create two dummy variables. The first dummy variable would take the value 1 if the observation belongs to the first level and 0 otherwise. The second dummy variable would take the value 1 if the observation belongs to the second level and 0 otherwise. </p>
+        <p class="para">\(x_{i1} = 
+            \begin{cases} 
+            1 & \text{if $i^{th}$ person is from the South} \\
+            0 & \text{if $i^{th}$ person is not from the South}
+            \end{cases}\)
+        </p>
+        <br> <br>
+        <p class="para">
+            \(x_{i2} = 
+            \begin{cases} 
+            1 & \text{if $i^{th}$ person is from the West} \\
+            0 & \text{if $i^{th}$ person is not from the West}
+            \end{cases}\)
+        </p>
+        <p class="para">For example, for the region variable we create two dummy variables. This model incorporates two dummy variables to represent three regions (South, West, and implicitly East):</p>
+        <p class="para">\(y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \epsilon_i = 
+            \begin{cases} 
+            \beta_0 + \beta_1 + \epsilon_i & \text{if $i^{th}$ person is from the South} \\
+            \beta_0 + \beta_2 + \epsilon_i & \text{if $i^{th}$ person is from the West} \\
+            \beta_0 + \epsilon_i & \text{if $i^{th}$ person is from the East}
+            \end{cases}\)
+        </p>
+        <div class="plot"><img src="image3.jpeg" alt=""></div>
+        <h2 id = "link7">Removing the Additive Assumption</h2>
+        <p class="para">The linear regression model assumes that the relationship between the predictors and the outcome variable is additive. This means that the effect of changes in a predictor on the outcome variable is independent of the values of other predictors. However, this may not always be the case. </p>
+        <p class="para">he inclusion of an interaction term in a linear regression model allows the effect of one predictor on the response variable to depend on the value of another predictor. This relaxes the additive assumption, which assumes that the effect of each predictor on the response variable is independent of the values of other predictors.</p>  
+        <p class="para">\[Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \epsilon \tag{1}\]</p>
+        <br>
+        <p class="para">\[Y = \beta_0 + (\beta_1 + \beta_3 X_2) X_1 + \beta_2 X_2 + \epsilon \tag{2}\]</p>
+        <br>
+        <p class="para">\[ = \beta_0 + \tilde{\beta}_1 X_1 + \beta_2 X_2 + \epsilon \tag{3}\]</p>
+        
+        <p class="para">In this model, \(\tilde{\beta}_1\) becomes a function of \(X_2\), meaning the effect of \(X_1\) on Y changes depending on the value of \(X_2\). This interaction term thus allows for a more flexible model where the association between \(X_1\) and Y is not constant but varies with \(X_2\), effectively relaxing the additive assumption of the linear model.</p>
+        <table class="table" style="font-size: 12px; font-family: Times New Roman; margin-left: auto; margin-right: auto;">
+            <caption style="font-size: initial !important;">
+            <span style="color:black;padding-left:1.32cm;  margin:0px"><strong><b>Model Output</b></strong></span> <br><span style="color:black;padding-left:1.32cm;;margin: 0px"><i></i></span>
+            </caption>
+             <thead>
+              <tr>
+               <th style="text-align:center;text-align: center;"> term </th>
+               <th style="text-align:center;text-align: center;"> estimate </th>
+               <th style="text-align:center;text-align: center;"> std.error </th>
+               <th style="text-align:center;text-align: center;"> statistic </th>
+               <th style="text-align:center;text-align: center;"> p.value </th>
+              </tr>
+             </thead>
+            <tbody>
+              <tr>
+               <td style="text-align:center;"> (Intercept) </td>
+               <td style="text-align:center;"> 1.04 </td>
+               <td style="text-align:center;"> 0.10 </td>
+               <td style="text-align:center;"> 10.32 </td>
+               <td style="text-align:center;"> 0.00 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> x1 </td>
+               <td style="text-align:center;text-align: center;"> -0.12 </td>
+               <td style="text-align:center;text-align: center;"> 0.11 </td>
+               <td style="text-align:center;text-align: center;"> -1.04 </td>
+               <td style="text-align:center;text-align: center;"> 0.30 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> x2 </td>
+               <td style="text-align:center;text-align: center;"> -0.10 </td>
+               <td style="text-align:center;text-align: center;"> 0.11 </td>
+               <td style="text-align:center;text-align: center;"> -0.88 </td>
+               <td style="text-align:center;text-align: center;"> 0.38 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;text-align: center;"> x1:x2 </td>
+               <td style="text-align:center;text-align: center;text-align: center;"> 2.11 </td>
+               <td style="text-align:center;text-align: center;text-align: center;"> 0.12 </td>
+               <td style="text-align:center;text-align: center;text-align: center;"> 17.72 </td>
+               <td style="text-align:center;text-align: center;text-align: center;"> 0.00 </td>
+              </tr>
+            </tbody>
+            </table>
+        <div class="plot"><img src="anim1.gif" alt=""></div>
+        <h2 id = "link8">Interaction between Categorical and Continous Predictor</h2>
+        <p class="para">The interaction between a categorical and continuous predictor can be incorporated into a linear model using dummy variables. </p>
+        <p class="para">\[\text{balance}_i = \beta_0 + \beta_1 \times \text{income}_i +
+            \begin{cases} 
+            \beta_2 & \text{if $i^{th}$ person is a student} \\
+            0 & \text{if $i^{th}$ person is not a student}
+            \end{cases}\]
+            \[= \beta_1 \times \text{income}_i +
+            \begin{cases} 
+            \beta_0 + \beta_2 & \text{if $i^{th}$ person is a student} \\
+            \beta_0 & \text{if $i^{th}$ person is not a student}
+            \end{cases}
+            \]</p>  
+        <div class="plot"><img src="image5.jpeg" alt=""></div>      
+        <p class="para">
+            \[\text{balance}_i = \beta_0 + \beta_1 \times \text{income}_i +
+            \begin{cases} 
+            \beta_2 + \beta_3 \times \text{income}_i & \text{if student} \\
+            0 & \text{if not student}
+            \end{cases}\]
+        </p>
+        <p class="para">
+            \[=
+            \begin{cases} 
+            (\beta_0 + \beta_2) + (\beta_1 + \beta_3) \times \text{income}_i & \text{if student} \\
+            \beta_0 + \beta_1 \times \text{income}_i & \text{if not student}
+            \end{cases}\]
+        </p>
+        <table class="table" style="font-size: 12px; font-family: Times New Roman; margin-left: auto; margin-right: auto;">
+            <caption style="font-size: initial !important;">
+            <span style="color:black;padding-left:1.32cm;  margin:0px"><strong><b>Table 2</b></strong></span> <br><span style="color:black;padding-left:1.32cm;;margin: 0px"><i></i></span>
+            </caption>
+             <thead>
+              <tr>
+               <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> term </th>
+               <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> estimate </th>
+               <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> std.error </th>
+               <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> statistic </th>
+               <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> p.value </th>
+              </tr>
+             </thead>
+            <tbody>
+              <tr>
+               <td style="text-align:center;"> (Intercept) </td>
+               <td style="text-align:center;"> 0.01 </td>
+               <td style="text-align:center;"> 0.13 </td>
+               <td style="text-align:center;"> 0.07 </td>
+               <td style="text-align:center;"> 0.94 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> xfemale </td>
+               <td style="text-align:center;text-align: center;"> 2.18 </td>
+               <td style="text-align:center;text-align: center;"> 0.19 </td>
+               <td style="text-align:center;text-align: center;"> 11.45 </td>
+               <td style="text-align:center;text-align: center;"> 0.00 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> x2 </td>
+               <td style="text-align:center;text-align: center;"> -0.15 </td>
+               <td style="text-align:center;text-align: center;"> 0.12 </td>
+               <td style="text-align:center;text-align: center;"> -1.32 </td>
+               <td style="text-align:center;text-align: center;"> 0.19 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> xfemale:x2 </td>
+               <td style="text-align:center;text-align: center;"> 6.13 </td>
+               <td style="text-align:center;text-align: center;"> 0.17 </td>
+               <td style="text-align:center;text-align: center;"> 35.91 </td>
+               <td style="text-align:center;text-align: center;"> 0.00 </td>
+              </tr>
+            </tbody>
+        </table>
+        <div class="plot"><img src="img6.jpeg" alt=""></div>
+        <h2 id = "link9">Potential Problems</h2>
+        <ol class = "list">
+            <li>Non-linearity of the response-predictor relationships.</li>
+            <li>Correlation of error terms.</li>
+            <li>Non-constant variance of error terms.</li>
+            <li>Outliers.</li>
+            <li>High-leverage points.</li>
+            <li>Collinearity.</li>
+        </ol>
+        <p class="para"><span id="red">Non-linearity of the response-predictor relationships:</span> The linear regression model assumes that there is a straight-line relationship
+            between the predictors and the response. If the true relationship
+            is far from linear, then virtually all of the conclusions that we draw from
+            the fit are suspect.
+        </p>
+        <div class="plot"><img src="image7.jpeg" alt=""></div>
+        <p class="para">Left: A linear regression of mpg on horsepower. A strong pattern in the residuals indicates non-linearity in the data. Right: A linear regression of mpg on horsepower and horsepower2. There is little pattern in the
+            residuals. We plot the residuals versus the predicted (or fitted) values. Ideally, the residual plot will show no fitted
+            discernible pattern. The presence of a pattern may indicate a problem with
+            some aspect of the linear model.
+        </p>
+        <p class="para"><span id="red">Correlation of Error Terms:</span> An important assumption of the linear regression model is that the error
+            terms, \(e_{1},e_{2},e_{3},...,e_{n}\), are uncorrelated. The standard errors that
+            are computed for the estimated regression coefficients or the fittted values
+            are based on the assumption of uncorrelated error terms. If in fact there is
+            correlation among the error terms, then the estimated standard errors will
+            tend to underestimate the true standard errors. As a result, confidence and
+            prediction intervals will be narrower than they should be.  <span id = "green">Correlated error terms in a model can cause underestimation of standard errors, leading to overly narrow confidence intervals and misleadingly significant p-values. This creates a false sense of confidence in the model's accuracy.</span></p>
+        <p class="para"><span id="red">Non Constance variance of error terms: </span> In linear regression, it's crucial to assume that the error terms exhibit constant variance, symbolized as \(\text{Var}(\epsilon_i) = \sigma^2\). This assumption underpins the validity of standard errors, confidence intervals, and hypothesis testing in the linear model framework. However, it's common to encounter situations where the error term variances are not constant. For example, the error term variance might escalate as the response value increases.</p>
+        <p class="para"><span id="red">Outliers and Leverage Points:</span> </p>
+        <table>
+            <tr>
+                <th>Feature</th>
+                <th>Outliers</th>
+                <th>Leverage Points</th>
+            </tr>
+            <tr>
+                <td>Definition</td>
+                <td>Data points where the observed value is far from the model's prediction.</td>
+                <td>Points that have an unusual predictor value, influencing the regression line significantly.</td>
+            </tr>
+            <tr>
+                <td>Cause</td>
+                <td>Often due to errors in data recording or unique cases not represented in the model.</td>
+                <td>Typically due to a unique combination of predictor values that are not common in the data set.</td>
+            </tr>
+            <tr>
+                <td>Impact on Model</td>
+                <td>May not significantly affect the model's slope but can impact error measures like RSE.</td>
+                <td>Can significantly change the slope and intercept of the regression line, altering the model's predictions.</td>
+            </tr>
+            <tr>
+                <td>Identification</td>
+                <td>Usually identified through residuals that are significantly larger or smaller than expected.</td>
+                <td>Identified through measures like leverage statistics, indicating an unusual influence on the model's fit.</td>
+            </tr>
+            <tr>
+                <td>Handling in Analysis</td>
+                <td>Often removed or adjusted to prevent skewing error metrics and model interpretation.</td>
+                <td>Might be kept in the analysis but requires careful interpretation of their impact on the model.</td>
+            </tr>
+        </table>
+        <div class="plot"><img src="image8.jpeg" alt=""></div>  
+        <p class="para"><span id="red">Collinearity:</span> Collinearity refers to the situation in which two or more predictor variables are closely related to one another. In this situation, it can be difficult to separate out the individual effects of collinear variables on the response. </p>
+        <table>
+            <tr>
+                <th>Aspect</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>Definition</td>
+                <td>Collinearity occurs when two or more predictor variables in a regression model are highly correlated, making it difficult to isolate the individual effects of each predictor on the response variable.</td>
+            </tr>
+            <tr>
+                <td>Example</td>
+                <td>In a regression of balance on rating and limit, the high correlation between limit and rating represents collinearity.</td>
+            </tr>
+            <tr>
+                <td>Problems Caused</td>
+                <td>Collinearity can inflate the standard error of coefficients, leading to less reliable estimates, and can reduce the power of hypothesis tests.</td>
+            </tr>
+            <tr>
+                <td>Identification</td>
+                <td>Collinearity can be identified through a correlation matrix of predictors or more effectively through the Variance Inflation Factor (VIF).</td>
+            </tr>
+            <tr>
+                <td>Variance Inflation Factor (VIF)</td>
+                <td>VIF quantifies the extent of collinearity; a value exceeding 5 or 10 suggests problematic collinearity.</td>
+            </tr>
+            <tr>
+                <td>Solutions</td>
+                <td>One approach is to drop one of the collinear variables from the regression. Another is to combine collinear variables into a single predictor.</td>
+            </tr>
+            <tr>
+                <td>Example from Credit Data</td>
+                <td>Regression of balance on age, rating, and limit showed high VIF values for rating and limit, indicating significant collinearity.</td>
+            </tr>
+            <tr>
+                <td>Impact on Model Fit</td>
+                <td>Addressing collinearity often doesn't significantly compromise the model fit; for example, removing a predictor can reduce collinearity without affecting the \( R^2 \) substantially.</td>
+            </tr>
+        </table>
+        
+        <h2 id = "link10">Steps to Fit a Regression Model using R</h2>
+        <p class="para">The following steps are used to fit a linear regression model using R:</p>
+        <h2 class = 'code-head'>Load the Data <button>Show</button></h2>
+        <pre class="code">
+            # Load the Data csv
+            data &lt;-- read.csv("data.csv")
+            # View the Data
+            head(data)
+        </pre>
+        <h2 class = 'code-head'>Data Exploration <button>Show</button></h2>
+        <pre class="code">
+            # Data Descriptives - General
+            summary(data)
+            # Continous Variables
+            psych::describe(data)
+            misty::descript(data)
+            # Categorical Variables
+            library(tidyverse)
+            dat %>% select(!where(is.numeric)) %>% lapply(table)
+            # Grouped Descriptives
+            psych::describeBy(data, group = data$group)
+            # Correlation Matrix
+            cor(data %>% select(where(is.numeric)))
+            # Correlation Plot
+            library(ggcorrplot)
+            ggcorrplot(cor(data %>% select(where(is.numeric))))
+        </pre>
+        <h2 class = 'code-head'>Data Preprocessing <button>Show</button></h2>
+        <pre class ="code">
+            # Missing values
+            misty::descript(data)
+            # Handling Missing values
+            data &lt;- data %>% drop_na()
+            data &lt;- na.omit(data)
+            # Use Multiple Imputation
+            library(mice)
+            imp &lt;- mice(data = dat_factored,m = 4,method='norm.nob') 
+            # Input imputed values
+            imputed_ages &lt;- 1:4 %>% map(~complete(imp,.x))
+            # Fit Linear Models for each imputed dataset
+            missing_mod &lt;- imputed_ages %>% map(~lm(rwas ~ education + TIPI10 + gender + age, data = .x) %>% summary)
+            # Combine the results
+            pool(missing_mod)
+            # Extract estimates
+            coeffs&lt;-summary(pool(missing_mod))$estimate
+            stderrs&lt;-summary(pool(missing_mod))$std.error
+            pvals&lt;-summary(pool(missing_mod))$p.value
+        </pre>
+        <h2 class = 'code-head'>Transform Data <button>Show</button></h2>
+        <pre class="code">
+            # Factor Variables
+            dat$group &lt;- as.factor(dat$group)
+            # Assign levels
+            levels(dat$group) &lt;- c("Control", "Treatment")
+            # Recode Variables
+            dat$group &lt;- recode(dat$group, "Control" = 0, "Treatment" = 1)
+            # Standardize Variables
+            dat$age &lt;- scale(dat$age)
+            # Center Variables
+            dat$age &lt;- scale(dat$age, center = TRUE, scale = FALSE)
+            # Log Transform
+            dat$log_age &lt;- log(dat$age)
+            # Square Transform
+            dat$sq_age &lt;- dat$age^2
+        </pre>
+        <h2 class = 'code-head'>Variable selection<button>Show</button></h2>
+        <pre class = "code">
+            # General Selection
+            model_data &lt;- data[c("feature1", "feature2", "response_variable")]
+            # Stepwise Selection
+            step &lt;- stepAIC(model, direction = "both")
+            # Backward Selection
+            step &lt;- stepAIC(model, direction = "backward")
+            # Forward Selection
+            step &lt;- stepAIC(model, direction = "forward")
+            # Lasso Regression
+            library(glmnet)
+            lasso &lt;- glmnet(x, y, alpha = 1)
+        </pre>
+        <h2 class = 'code-head'>Data Visualization <button>Show</button></h2>
+        <pre class="code">
+            # Scatterplot Matrix
+            library(GGally)
+            ggpairs(data)
+            # General Individual Plots
+            library(ggplot2)
+            ggplot(data, aes(x = x, y = y)) + geom_point()
+            ggplot(data, aes(x = x, y = y, color = group)) + geom_point()
+            ggplot(data, aes(x = x, y = y, color = group)) + geom_point() + geom_smooth(method = "lm")
+            ggplot(data, aes(x = x, y = y, color = group)) + geom_point() + geom_smooth(method = "lm", se = FALSE)
+            ggplot(data, aes(x = x, y = y, color = group)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + geom_smooth(method = "lm", se = FALSE, formula = y ~ poly(x, 2))
+        </pre>
+        <h2 class = 'code-head'>Fit the Model <button>Show</button></h2>
+        <pre class="code">
+            # Fit simple regression Model
+            model &lt;- lm(y ~ x, data = data)
+            # View the Model
+            summary(model)
+            # Fit multiple regression Model
+            model &lt;- lm(y ~ x1 + x2 + x3, data = data)
+            # View the Model
+            summary(model)
+            # Fit interaction Model
+            model &lt;- lm(y ~ x1 * x2, data = data)
+            # View the Model
+            summary(model)
+            # Fit Model with Categorical Variables
+            model &lt;- lm(y ~ x1 + x2 + x3, data = data)
+            # View the Model
+            summary(model)
+        </pre>
+        <h2 class = 'code-head'>Model Diagnostics <button>Show</button></h2>
+        <pre class="code">
+            # Residuals vs Fitted
+            plot(model, which = 1)
+            # Normal Q-Q Plot
+            plot(model, which = 2)
+            # Scale-Location
+            plot(model, which = 3)
+            # Residuals vs Leverage
+            plot(model, which = 5)
+            # Cook's Distance
+            cooks.distance(model)
+            # Influence Plot
+            influencePlot(model)
+            # Variance Inflation Factor
+            library(car)
+            vif(model)
+        </pre>
+        <h2 class = 'code-head'>Model Evaluation <button>Show</button></h2>
+        <pre class="code">
+            # RSE
+            sqrt(mean(model$residuals^2))
+            # R-Squared
+            summary(model)$r.squared
+            # Adjusted R-Squared
+            summary(model)$adj.r.squared
+            # RMSE
+            sqrt(mean(model$residuals^2))
+            # MSE
+            mean(model$residuals^2)
+        </pre>
+        <h2 class = 'code-head'>Prediction <button>Show</button></h2>
+        <pre class="code">
+            # Predictions
+            predict(model, newdata = data.frame(x = 10))
+            # Confidence Intervals
+            predict(model, newdata = data.frame(x = 10), interval = "confidence")
+            # Prediction Intervals
+            predict(model, newdata = data.frame(x = 10), interval = "prediction")
+        </pre>
+        <button class = 'play'>Start Application</button>
+
+        <div class="frame inactive">
+            <iframe src="https://arjun10.shinyapps.io/LinearRegression/" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <div class="content2">
+        <h1 class = 'head'>Introduction to Mixed Effects Modelling</h1>
+        <ol class = "toc">
+            <li><a href="#mem1">Fixed Effects</a></li>
+            <li><a href="#mem2">Random Effects</a></li>
+            <li><a href="#mem3">Fixed vs Random Effects</a></li>
+            <li><a href="#mem4">Mixed Effects Modelling</a></li>
+            <li><a href="#mem5">Random Intercept model</a></li>
+            <li><a href="#mem6">Random vs Fixed Effects</a></li>
+            <li><a href="#mem7">Model Evaluation Using R</a></li>
+        </ol>
+        <h2 id = "mem1">Fixed Effects</h2> 
+        <p class="para">
+            <span id="red">Fixed effects</span> are the parameters that are constant for all the levels of the factor. For example, in the model \(y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \epsilon\), \(\beta_0\) is the intercept and \(\beta_1\) and \(\beta_2\) are the slopes for the two predictors \(x_1\) and \(x_2\). These are fixed effects because they are constant for all the levels of the factor. The parameters associated with the levels of a categorical covariate are referred to as the "effects" of the levels. If the set of levels is fixed and reproducible, fixed-effects parameters are used to model the covariate. Fixed effects capture the average relationship between the response variable and the categorical covariate across all levels. They estimate how the response varies with each level of the categorical covariate.
+        </p>   
+        <table class="table" style="font-size: 12px; font-family: Times New Roman; margin-left: auto; margin-right: auto;">
+            <caption style="font-size: initial !important;">
+            <span style="color:black;padding-left:1.32cm;  margin:0px"><strong><b>Fixed Effects</b></strong></span> <br><span style="color:black;padding-left:1.32cm;;margin: 0px"><i></i></span>
+            </caption>
+             <thead>
+              <tr>
+               <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> Reaction </th>
+               <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> Days </th>
+               <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> Subject </th>
+              </tr>
+             </thead>
+            <tbody>
+              <tr>
+               <td style="text-align:center;"> 199.05 </td>
+               <td style="text-align:center;"> 0 </td>
+               <td style="text-align:center;"> 310 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 194.33 </td>
+               <td style="text-align:center;text-align: center;"> 1 </td>
+               <td style="text-align:center;text-align: center;"> 310 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 234.32 </td>
+               <td style="text-align:center;text-align: center;"> 2 </td>
+               <td style="text-align:center;text-align: center;"> 310 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 232.84 </td>
+               <td style="text-align:center;text-align: center;"> 3 </td>
+               <td style="text-align:center;text-align: center;"> 310 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 229.31 </td>
+               <td style="text-align:center;text-align: center;"> 4 </td>
+               <td style="text-align:center;text-align: center;"> 310 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 220.46 </td>
+               <td style="text-align:center;text-align: center;"> 5 </td>
+               <td style="text-align:center;text-align: center;"> 310 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 235.42 </td>
+               <td style="text-align:center;text-align: center;"> 6 </td>
+               <td style="text-align:center;text-align: center;"> 310 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 255.75 </td>
+               <td style="text-align:center;text-align: center;"> 7 </td>
+               <td style="text-align:center;text-align: center;"> 310 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 261.01 </td>
+               <td style="text-align:center;text-align: center;"> 8 </td>
+               <td style="text-align:center;text-align: center;"> 310 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 247.52 </td>
+               <td style="text-align:center;text-align: center;"> 9 </td>
+               <td style="text-align:center;text-align: center;"> 310 </td>
+              </tr>
+            </tbody>
+        </table>
+        <div class = "plot">
+            <img src="mlimage2.jpeg" alt="">
+        </div>
+        <h2 id = "mem2">Random Effects</h2>
+        <p class="para">
+            <span id="red">Random effects</span> are observed levels that represent a random sample from the set of all possible levels, random effects are incorporated into the model. Random effects account for the variability among the different levels of the categorical covariate. They capture the deviations from the fixed effects specific to each level and allow for individual differences among the units or groups.
+        </p>
+        <table class="table" style="font-size: 12px; font-family: Times New Roman; margin-left: auto; margin-right: auto;">
+            <caption style="font-size: initial !important;">
+            <span style="color:black;padding-left:1.32cm;  margin:0px"><strong><b>Random Effects</b></strong></span> <br><span style="color:black;padding-left:1.32cm;;margin: 0px"><i></i></span>
+            </caption>
+             <thead>
+              <tr>
+               <th style="text-align:center;text-align: center;"> Reaction </th>
+               <th style="text-align:center;text-align: center;"> Days </th>
+               <th style="text-align:center;text-align: center;"> Subject </th>
+              </tr>
+             </thead>
+            <tbody>
+              <tr>
+               <td style="text-align:center;"> 249.56 </td>
+               <td style="text-align:center;"> 0 </td>
+               <td style="text-align:center;"> 308 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 258.70 </td>
+               <td style="text-align:center;text-align: center;"> 1 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 250.80 </td>
+               <td style="text-align:center;text-align: center;"> 2 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 321.44 </td>
+               <td style="text-align:center;text-align: center;"> 3 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 356.85 </td>
+               <td style="text-align:center;text-align: center;"> 4 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 414.69 </td>
+               <td style="text-align:center;text-align: center;"> 5 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 382.20 </td>
+               <td style="text-align:center;text-align: center;"> 6 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 290.15 </td>
+               <td style="text-align:center;text-align: center;"> 7 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 430.59 </td>
+               <td style="text-align:center;text-align: center;"> 8 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 466.35 </td>
+               <td style="text-align:center;text-align: center;"> 9 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 222.73 </td>
+               <td style="text-align:center;text-align: center;"> 0 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 205.27 </td>
+               <td style="text-align:center;text-align: center;"> 1 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 202.98 </td>
+               <td style="text-align:center;text-align: center;"> 2 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 204.71 </td>
+               <td style="text-align:center;text-align: center;"> 3 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 207.72 </td>
+               <td style="text-align:center;text-align: center;"> 4 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 215.96 </td>
+               <td style="text-align:center;text-align: center;"> 5 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 213.63 </td>
+               <td style="text-align:center;text-align: center;"> 6 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 217.73 </td>
+               <td style="text-align:center;text-align: center;"> 7 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;"> 224.30 </td>
+               <td style="text-align:center;text-align: center;"> 8 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr>
+               <td style="text-align:center;text-align: center;text-align: center;border: 1px black; border-style: none none solid none"> 237.31 </td>
+               <td style="text-align:center;text-align: center;text-align: center;border: 1px black; border-style: none none solid none"> 9 </td>
+               <td style="text-align:center;text-align: center;text-align: center;border: 1px black; border-style: none none solid none"> 309 </td>
+              </tr>
+            </tbody>
+        </table>
+        <div class="plot">
+            <img src="re_image1.jpeg" alt="">
+        </div>
+        <h2 id = "mem3">Fixed vs Random Effects</h2>
+        <p class="para">
+            <span id="red">Fixed-effects</span> parameters are actual parameters in the statistical model, while <span id="red">random effects</span> are unobserved random variables. To illustrate this distinction, let's consider an example where we want to model the annual reading test scores for students in a school district. We have two categorical covariates: student identifier and gender. The levels of the gender covariate, male and female, are fixed and do not change across different datasets or observations. They represent predetermined categories. On the other hand, the student identifier covariate represents individual students, and the observed students' scores can be seen as a sample from the larger population of all possible students. As we gather data from additional school districts or include results from previous or subsequent tests, the number of distinct levels of the student identifier increases. Each student in the sample represents a specific level of the covariate. <span id="red">Fixed-effects</span> parameters in this scenario capture the average relationship between the response variable (test scores) and the covariates (gender) across all levels. They estimate how the test scores differ between male and female students on average. <span id="red">Random effects</span>, in contrast, account for the variability among individual students within the larger population. They represent the unobserved individual characteristics or variations that contribute to the differences in test scores among students. <span id="red">Random effects</span> are not directly estimated but are treated as random variables with their own distribution. </p>
+        <div class="plot">
+            <img src="FixedEFFECt.jpeg" alt="">
+        </div>
+        <div class="plot">
+            <img src="random_effect.jpeg" alt="">
+        </div>
+        <h2 id = "mem4">Mixed Effects Modelling</h2>
+        <p class="para">
+            <span id="red">Mixed effects models</span> are statistical models that incorporate both fixed effects and random effects. A model with random effects always includes at least one fixed-effects parameter, making it a mixed model. In mixed-effects models, we represent the statistical model using two random variables: Y for the response variable and B for the random effects.
+        </p>
+        <ul class = "list">
+            <li>Unconditional Distribution of B: </li>
+            <p>We describe the distribution of the random effects &Beta; without considering any specific values of the response variable &Upsilon;. This distribution is denoted as P(&Beta;) and is characterized by its functional form and parameters. For example, we might assume that &Beta; follows a multivariate normal distribution with mean zero and a covariance matrix Σ.</p>
+            <li>Conditional Distribution of &Upsilon; given &Beta;:</li>
+            <p>Given a specific value of the random effects &Beta; (denoted as b), we describe the distribution of the response variable given a specific value of the random effects &Beta; (denoted as b), we describe the distribution of the response variable &Upsilon; as (&Upsilon;|&Beta; = b). This conditional distribution takes into account the observed values of the response variable and the covariates. The functional form and parameters of this distribution depend on the specific modeling assumptions, such as whether we are using a linear regression, logistic regression, or other types of models. as (Y|B = b). This conditional distribution takes into account the observed values of the response variable and the covariates. The functional form and parameters of this distribution depend on the specific modeling assumptions, such as whether we are using a linear regression, logistic regression, or other types of models.</p>
+        </ul>
+        <h2>The Linear Mixed-effects Probability Model (Optional)</h2>
+        <img src="https://latex.codecogs.com/png.latex?%5Clarge%20%28Y%7CB%20%3D%20b%29%20%5Csim%20%5Cmathcal%7BN%7D%28X%5Cbeta%20&plus;%20Zb%2C%20%5Csigma%5E2I%29" alt="" class="equation">
+        <img src="https://latex.codecogs.com/png.latex?%5Clarge%20B%20%5Csim%20%5Cmathcal%7BN%7D%280%2C%20%5CSigma%20_%5Ctheta%29" alt="" class="equation">
+        <ul class ="list">
+            <li>(&Upsilon;|&Beta; = b) represents the conditional distribution of the response variable &Upsilon; given the random effects &Beta; taking on the specific value b. It indicates that the distribution of Y depends on the value of B being equal to b.</li>
+             <li><i>N</i>(X + Zb, &sigma;&sup2;I) represents a multivariate normal distribution with mean X + Zb and covariance matrix &sigma;&sup2;I. The mean is a linear combination of the fixed effects and the random effects, whereas, the covariance matrix is a diagonal matrix with &Sigma;<sub>&theta;</sub> as the variance component. </li>
+             <li>&Beta; represents the vector of random effects, which follows a normal distribution with mean 0 and variance &sigma;&sup2;. The random effects capture the variability in the response variable that is not explained by the fixed effects. </li>
+        </ul>
+        <h2>The variance parameter for the Random Effect (optional)</h2>
+        <img src="https://latex.codecogs.com/png.latex?%5Clarge%20%5CSigma_%7B%5Ctheta%7D%20%3D%20%5Csigma%5E2%20%5CLambda_%7B%5Ctheta%7D%20%5CLambda_%7B%5Ctheta%7D%5ET" alt="" class="equation">
+        <ul class = "list">
+            <li>&Sigma;<sub>&theta;</sub> represents the variance-covariance matrix of the random effects. The diagonal elements represent the variances of the individual random effects. The off-diagonal elements represent the covariances between pairs of random effects. These values indicate the extent to which the random effects are associated with each other. </li>
+            <li>&theta; represents the variance component parameter which determines the relative contribution of each random effect to the overall variability in the model. </li>
+            <li>&Lambda;<sub>&theta;</sub> represents the relative covariance factor. This is a q x q matrix that characterizes the relationship among the random effects. Each element represents the degree of association or correlation between pairs of random effects.</li>
+            <li> The equation describes how the variance-covariance matrix &Sigma;<sub>&theta;</sub> is derived from the squared variance component parameter &sigma;<sup>2</sup> and the outer product of &Lambda;<sub>&theta;</sub> and its transpose.</li>
+            <li>The goal is to scale the relative covariance factor &Lambda;<sub>&theta;</sub> by the variance component parameter &theta;, resulting in a matrix that captures the magnitudes of the random effects and their relationships</li>
+        </ul>
+        <img src="https://latex.codecogs.com/png.latex?%5Clarge%20B%20%3D%20%5C%28%5CLambda_%7B%5Ctheta%7D%20U%5C%29" alt="" class="equation">
+        <ul class = "list">
+            <li><i>B</i> represents the vector of random effects.</li>
+            <li>&Lambda;<sub>&theta;</sub> is the relative covariance factor, a q x q matrix.</li>
+            <li><i>U</i> represents the spherical random effects, which are q-dimensional vectors drawn from a multivariate normal distribution with mean 0 and variance &sigma;<sup>2</sup><i>I</i><sub>q</sub></li>
+        </ul>
+
+        <p class = "para">Since the conditional mean X + Zb, is a linear function of both X
+            and U, minimization with respect to both parameters produces conditional modes of the spherical random effects and the conditional
+            estimate &beta; for the fixed effects. Minimizing this further with respect to &sigma;<sup>2</sup> provides the profiled deviance which is a function of &theta;. Hence, the maximum likelhood is the value that minimizes the profiled deviance.
+         </p>
+        <h2 id = "mem5">Random Intercept Model</h2>
+        <p class="para">
+            When working with nested data, we often want to account for the variability among the different levels of the categorical covariate. If we fail to do so, we are in violation of the "no correlated residuals" assumption. Random Intercept model allows for each group to have its own baseline value (intercept) but assumes that the slope (the rate of change of the dependent variable with respect to the independent variable) is the same across all groups. This accounts for the fact that data within the same group may be more similar to each other than to data from different groups.
+        </p>
+        <table>
+            <tr>
+              <th>Feature</th>
+              <th>Linear Regression</th>
+              <th>Random Intercept Model</th>
+            </tr>
+            <tr>
+              <td>Intercepts</td>
+              <td>Same for all subjects/observations</td>
+              <td>Varies by group</td>
+            </tr>
+            <tr>
+              <td>Slopes</td>
+              <td>Same for all subjects/observations</td>
+              <td>Typically same for all groups (can vary in random slope models)</td>
+            </tr>
+            <tr>
+              <td>Data Structure</td>
+              <td>Independent observations</td>
+              <td>Clustered or grouped data</td>
+            </tr>
+            <tr>
+              <td>Assumption on Residuals</td>
+              <td>Independently and identically distributed</td>
+              <td>Correlated within groups</td>
+            </tr>
+            <tr>
+              <td>Use Case</td>
+              <td>When group clustering is not present or can be ignored</td>
+              <td>When data is grouped, and group-level variability is of interest</td>
+            </tr>
+        </table>
+        <div class = "plot">
+            <img src="lmvsrand1.jpeg" alt="">
+        </div>
+        <div class = "plot">
+            <img src="lmvsrand2.jpeg" alt="">
+        </div>
+        <table class="table" style="font-size: 12px; font-family: Times New Roman; margin-left: auto; margin-right: auto;">
+            <caption style="font-size: initial !important;">
+            <span style="color:black;padding-left:1.32cm;  margin:0px"><strong><b>Random Effects</b></strong></span> <br><span style="color:black;padding-left:1.32cm;;margin: 0px"><i></i></span>
+            </caption>
+             <thead>
+              <tr>
+               <th style="text-align:center;text-align: center;"> Reaction </th>
+               <th style="text-align:center;text-align: center;"> Days </th>
+               <th style="text-align:center;text-align: center;"> Subject </th>
+              </tr>
+             </thead>
+            <tbody>
+              <tr style = "color:red">
+               <td style="text-align:center;"> 249.56 </td>
+               <td style="text-align:center;"> 0 </td>
+               <td style="text-align:center;"> 308 </td>
+              </tr>
+              <tr style = "color:red">
+               <td style="text-align:center;text-align: center;"> 258.70 </td>
+               <td style="text-align:center;text-align: center;"> 1 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr style = "color:red">
+               <td style="text-align:center;text-align: center;"> 250.80 </td>
+               <td style="text-align:center;text-align: center;"> 2 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr style = "color:red">
+               <td style="text-align:center;text-align: center;"> 321.44 </td>
+               <td style="text-align:center;text-align: center;"> 3 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr style = "color:red">
+               <td style="text-align:center;text-align: center;"> 356.85 </td>
+               <td style="text-align:center;text-align: center;"> 4 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr style = "color:red">
+               <td style="text-align:center;text-align: center;"> 414.69 </td>
+               <td style="text-align:center;text-align: center;"> 5 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr style = "color:red">
+               <td style="text-align:center;text-align: center;"> 382.20 </td>
+               <td style="text-align:center;text-align: center;"> 6 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr style = "color:red">
+               <td style="text-align:center;text-align: center;"> 290.15 </td>
+               <td style="text-align:center;text-align: center;"> 7 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr style = "color:red">
+               <td style="text-align:center;text-align: center;"> 430.59 </td>
+               <td style="text-align:center;text-align: center;"> 8 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr style = "color:red">
+               <td style="text-align:center;text-align: center;"> 466.35 </td>
+               <td style="text-align:center;text-align: center;"> 9 </td>
+               <td style="text-align:center;text-align: center;"> 308 </td>
+              </tr>
+              <tr style = "color:green">
+               <td style="text-align:center;text-align: center;"> 222.73 </td>
+               <td style="text-align:center;text-align: center;"> 0 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr style = "color:green">
+               <td style="text-align:center;text-align: center;"> 205.27 </td>
+               <td style="text-align:center;text-align: center;"> 1 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr style = "color:green">
+               <td style="text-align:center;text-align: center;"> 202.98 </td>
+               <td style="text-align:center;text-align: center;"> 2 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr style = "color:green">
+               <td style="text-align:center;text-align: center;"> 204.71 </td>
+               <td style="text-align:center;text-align: center;"> 3 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr style = "color:green">
+               <td style="text-align:center;text-align: center;"> 207.72 </td>
+               <td style="text-align:center;text-align: center;"> 4 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr style = "color:green">
+               <td style="text-align:center;text-align: center;"> 215.96 </td>
+               <td style="text-align:center;text-align: center;"> 5 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr style = "color:green">
+               <td style="text-align:center;text-align: center;"> 213.63 </td>
+               <td style="text-align:center;text-align: center;"> 6 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr style = "color:green">
+               <td style="text-align:center;text-align: center;"> 217.73 </td>
+               <td style="text-align:center;text-align: center;"> 7 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr style = "color:green">
+               <td style="text-align:center;text-align: center;"> 224.30 </td>
+               <td style="text-align:center;text-align: center;"> 8 </td>
+               <td style="text-align:center;text-align: center;"> 309 </td>
+              </tr>
+              <tr style = "color:green">
+               <td style="text-align:center;text-align: center;text-align: center;border: 1px black; border-style: none none solid none"> 237.31 </td>
+               <td style="text-align:center;text-align: center;text-align: center;border: 1px black; border-style: none none solid none"> 9 </td>
+               <td style="text-align:center;text-align: center;text-align: center;border: 1px black; border-style: none none solid none"> 309 </td>
+              </tr>
+            </tbody>
+        </table>
+        <div class="plot">
+            <img src="illustration_1.jpeg" alt="">    
+        </div>
+        <h2 id = "mem6">Random vs Fixed Estimates</h2>  
+        <ul class = "list">
+            <li>Linear Model Output</li>
+            <table class="table" style="font-size: 12px; font-family: Times New Roman; margin-left: auto; margin-right: auto;">
+                <caption style="font-size: initial !important;">
+                <span style="color:black;padding-left:1.32cm;  margin:0px"><strong><b>Table 1</b></strong></span> <br><span style="color:black;padding-left:1.32cm;;margin: 0px"><i>Linear Model</i></span>
+                </caption>
+                 <thead>
+                  <tr>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> term </th>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> estimate </th>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> std.error </th>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> statistic </th>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> p.value </th>
+                  </tr>
+                 </thead>
+                <tbody>
+                  <tr>
+                   <td style="text-align:center;"> (Intercept) </td>
+                   <td style="text-align:center;"> 224.62 </td>
+                   <td style="text-align:center;"> 33.23 </td>
+                   <td style="text-align:center;"> 6.76 </td>
+                   <td style="text-align:center;"> 0.00 </td>
+                  </tr>
+                  <tr>
+                   <td style="text-align:center;text-align: center;"> Days </td>
+                   <td style="text-align:center;text-align: center;"> 12.01 </td>
+                   <td style="text-align:center;text-align: center;"> 6.23 </td>
+                   <td style="text-align:center;text-align: center;"> 1.93 </td>
+                   <td style="text-align:center;text-align: center;"> 0.07 </td>
+                  </tr>
+                </tbody>
+            </table>
+            <li>Random Intercept Model Output</li>
+            <table class="table" style="font-size: 12px; font-family: Times New Roman; margin-left: auto; margin-right: auto;">
+                <caption style="font-size: initial !important;">
+                <span style="color:black;padding-left:1.32cm;  margin:0px"><strong><b>Table 2</b></strong></span> <br><span style="color:black;padding-left:1.32cm;;margin: 0px"><i>Random Effects Model (Fixed Effects)</i></span>
+                </caption>
+                 <thead>
+                  <tr>
+                   <th style="text-align:left;text-align: center;border: 1px black; border-style: solid none solid none">   </th>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> Estimate </th>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> Std. Error </th>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> t value </th>
+                  </tr>
+                 </thead>
+                <tbody>
+                  <tr>
+                   <td style="text-align:left;"> (Intercept) </td>
+                   <td style="text-align:center;"> 224.62 </td>
+                   <td style="text-align:center;"> 65.39 </td>
+                   <td style="text-align:center;"> 3.44 </td>
+                  </tr>
+                  <tr>
+                   <td style="text-align:left;text-align: center;"> Days </td>
+                   <td style="text-align:center;text-align: center;"> 12.01 </td>
+                   <td style="text-align:center;text-align: center;"> 3.51 </td>
+                   <td style="text-align:center;text-align: center;"> 3.42 </td>
+                  </tr>
+                </tbody>
+            </table>
+            <table class="table" style="font-size: 12px; font-family: Times New Roman; margin-left: auto; margin-right: auto;">
+                <caption style="font-size: initial !important;">
+                <span style="color:black;padding-left:1.32cm;  margin:0px"><strong><b>Table 3</b></strong></span> <br><span style="color:black;padding-left:1.32cm;;margin: 0px"><i>Random Effects Model (Random Effects)</i></span>
+                </caption>
+                 <thead>
+                  <tr>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> grp </th>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> var1 </th>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> vcov </th>
+                   <th style="text-align:center;text-align: center;border: 1px black; border-style: solid none solid none"> sdcor </th>
+                  </tr>
+                 </thead>
+                <tbody>
+                  <tr>
+                   <td style="text-align:center;"> Subject </td>
+                   <td style="text-align:center;"> (Intercept) </td>
+                   <td style="text-align:center;"> 7848.48 </td>
+                   <td style="text-align:center;"> 88.59 </td>
+                  </tr>
+                  <tr>
+                   <td style="text-align:center;text-align: center;"> Residual </td>
+                   <td style="text-align:center;text-align: center;"> NA </td>
+                   <td style="text-align:center;text-align: center;"> 2034.31 </td>
+                   <td style="text-align:center;text-align: center;"> 45.10 </td>
+                  </tr>
+                </tbody>
+            </table>
+        </ul>
+        <h2 id = "mem7">The <i>lme4</i> Package</h2>
+            <p class = "para">
+                lme4 package in R is the gold standard for fitting linear mixed-effects models. You can install and load the package using the following code.</p>
+                <pre class="rcode">install.packages('lme4')
+                    library(lme4)</pre>
+            <p class = "para">Often finding practice datasets can be quite frustrating, however, several packages in R come with prebuilt datasets. An easy way to find all the datasets in a package is to use the following function -</p>
+            <pre class="rcode">data_set_names &lt;- function(pack = ""){
+                require(dplyr)
+                require(purrr)
+              data_info &lt;- data(package = pack)
+              
+              # Extract the data set names as a vector
+              data_info$results %>% as.data.frame() %>%  pull(Item)
+              }</pre>
+
+              <p class = "para">Now you can utilize the function with package name to obtain all datasets in the packages. For example, if I want to find all the datasets in the lme4 package, I can use - </p>
+              <pre class="rcode">data_set_names('lme4')</pre>
+                <p class = "para">Before fitting a model, it is important to understand the structure of the data. The following functions are useful for this purpose.</p>
+                <ul class = "list">
+                    <li>str() - This function provides a compact way to display the internal structure of an R object. It is a generic function, meaning that new data types can define their own specific methods of displaying the object structure.</li>
+                    <li>head() - This function returns the first n rows for an object with a default value of 6.</li>
+                    <li>summary() - This function returns a summary of the results of various model fitting functions.</li>
+                    <li>View() - This function opens a spreadsheet-style data viewer for a data frame.</li>
+                </ul>
+                <p class = "para">Let's use these functions to examine the structure of the sleepstudy dataset.</p>
+                <pre class="rcode">str(sleepstudy)
+                    head(sleepstudy)
+                    summary(sleepstudy)
+                    View(sleepstudy)</pre>
+                <p class = "para">Visualizing data is an important step in the modeling process. It helps us understand the data and identify any patterns or outliers. In mixed effects models we're often working with categorical data, hence, it can be useful to produce visualizations. The following code generates a simple plot that examines how well different alpaca breeds vary in yield output over four time periods. <span class="highlight">Note: The code uses a custom theme function. </span></p>
+                <pre class="rcode">nlme::Alfalfa %>% mutate(Date = Date %>% as.numeric)  %>% ggplot(aes(Date, Yield, group = 1)) +
+                    geom_smooth(col = 'floralwhite', method = 'lm') +
+                    geom_point(col = 'grey4') +
+                    scale_x_continuous(labels = nlme::Alfalfa %>% pull(Date) %>% unique) +
+                    mytheme() +
+                    facet_wrap(~Variety)
+                  </pre>
+                <div class = "plot">
+                    <img src="oldImages/img1.jpeg" alt="" class="graph">
+                </div>
+                <p class = "para">Descriptive statistics are used to describe the basic features of the data in a study. They provide simple summaries about the sample and the measures. Together with simple graphics analysis, they form the basis of virtually every quantitative analysis of data. There are several convenient functions that can be used to generate descriptive statistics in R.</p>
+
+                <ul class = "list">
+                    <li>describe() - provides descriptive statistics (psych package)</li>
+                    <pre class="rcode">psych::describe(nlme::Alfalfa)</pre>
+                    <li>describeBy() - provides grouped descriptive statistics (psycn package)</li>
+                    <pre class="rcode">psych::describeBy(nlme::Alfalfa,group = c('Variety','Date'))</pre>
+                    <pre class="rcode">
+                        Descriptive statistics by group 
+                       Variety: Cossack
+                       Date: None
+                                vars n mean   sd median trimmed  mad  min  max range skew kurtosis
+                       Variety*    1 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00  NaN      NaN
+                       Date*       2 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00  NaN      NaN
+                       Block*      3 6 3.50 1.87   3.50    3.50 2.22 1.00 6.00  5.00 0.00    -1.80
+                       Yield       4 6 1.76 0.37   1.74    1.76 0.44 1.35 2.33  0.98 0.28    -1.63
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.15
+                       ----------------------------------------------------------- 
+                       Variety: Ladak
+                       Date: None
+                                vars n mean   sd median trimmed  mad  min  max range skew kurtosis
+                       Variety*    1 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00  NaN      NaN
+                       Date*       2 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00  NaN      NaN
+                       Block*      3 6 3.50 1.87   3.50    3.50 2.22 1.00 6.00  5.00 0.00    -1.80
+                       Yield       4 6 1.88 0.32   1.77    1.88 0.25 1.58 2.34  0.76 0.39    -1.87
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.13
+                       ----------------------------------------------------------- 
+                       Variety: Ranger
+                       Date: None
+                                vars n mean   sd median trimmed  mad min  max range  skew kurtosis
+                       Variety*    1 6  1.0 0.00   1.00     1.0 0.00 1.0 1.00  0.00   NaN      NaN
+                       Date*       2 6  1.0 0.00   1.00     1.0 0.00 1.0 1.00  0.00   NaN      NaN
+                       Block*      3 6  3.5 1.87   3.50     3.5 2.22 1.0 6.00  5.00  0.00    -1.80
+                       Yield       4 6  1.7 0.34   1.77     1.7 0.41 1.3 2.13  0.83 -0.14    -1.87
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.14
+                       ----------------------------------------------------------- 
+                       Variety: Cossack
+                       Date: S1
+                                vars n mean   sd median trimmed  mad  min  max range skew kurtosis
+                       Variety*    1 6  1.0 0.00   1.00     1.0 0.00 1.00 1.00  0.00  NaN      NaN
+                       Date*       2 6  1.0 0.00   1.00     1.0 0.00 1.00 1.00  0.00  NaN      NaN
+                       Block*      3 6  3.5 1.87   3.50     3.5 2.22 1.00 6.00  5.00 0.00    -1.80
+                       Yield       4 6  1.3 0.30   1.21     1.3 0.21 1.06 1.85  0.79 0.87    -0.91
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.12
+                       ----------------------------------------------------------- 
+                       Variety: Ladak
+                       Date: S1
+                                vars n mean   sd median trimmed  mad  min  max range  skew kurtosis
+                       Variety*    1 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00   NaN      NaN
+                       Date*       2 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00   NaN      NaN
+                       Block*      3 6 3.50 1.87   3.50    3.50 2.22 1.00 6.00  5.00  0.00    -1.80
+                       Yield       4 6 1.31 0.25   1.25    1.31 0.26 0.94 1.59  0.65 -0.08    -1.62
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.10
+                       ----------------------------------------------------------- 
+                       Variety: Ranger
+                       Date: S1
+                                vars n mean   sd median trimmed  mad  min max range  skew kurtosis
+                       Variety*    1 6 1.00 0.00   1.00    1.00 0.00 1.00 1.0  0.00   NaN      NaN
+                       Date*       2 6 1.00 0.00   1.00    1.00 0.00 1.00 1.0  0.00   NaN      NaN
+                       Block*      3 6 3.50 1.87   3.50    3.50 2.22 1.00 6.0  5.00  0.00    -1.80
+                       Yield       4 6 1.41 0.26   1.42    1.41 0.16 1.01 1.8  0.79 -0.07    -1.22
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.11
+                       ----------------------------------------------------------- 
+                       Variety: Cossack
+                       Date: S20
+                                vars n mean   sd median trimmed  mad  min  max range  skew kurtosis
+                       Variety*    1 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00   NaN      NaN
+                       Date*       2 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00   NaN      NaN
+                       Block*      3 6 3.50 1.87   3.50    3.50 2.22 1.00 6.00  5.00  0.00    -1.80
+                       Yield       4 6 1.58 0.36   1.69    1.58 0.20 0.88 1.86  0.98 -1.08    -0.55
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.15
+                       ----------------------------------------------------------- 
+                       Variety: Ladak
+                       Date: S20
+                                vars n mean   sd median trimmed  mad  min  max range skew kurtosis
+                       Variety*    1 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00  NaN      NaN
+                       Date*       2 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00  NaN      NaN
+                       Block*      3 6 3.50 1.87   3.50    3.50 2.22 1.00 6.00  5.00  0.0    -1.80
+                       Yield       4 6 1.66 0.41   1.64    1.66 0.39 1.12 2.29  1.17  0.2    -1.47
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.17
+                       ----------------------------------------------------------- 
+                       Variety: Ranger
+                       Date: S20
+                                vars n mean   sd median trimmed  mad  min  max range  skew kurtosis
+                       Variety*    1 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00   NaN      NaN
+                       Date*       2 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00   NaN      NaN
+                       Block*      3 6 3.50 1.87   3.50    3.50 2.22 1.00 6.00  5.00  0.00    -1.80
+                       Yield       4 6 1.48 0.26   1.56    1.48 0.24 1.13 1.82  0.69 -0.19    -1.73
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.10
+                       ----------------------------------------------------------- 
+                       Variety: Cossack
+                       Date: O7
+                                vars n mean   sd median trimmed  mad  min  max range skew kurtosis
+                       Variety*    1 6 1.00 0.00    1.0    1.00 0.00 1.00 1.00  0.00  NaN      NaN
+                       Date*       2 6 1.00 0.00    1.0    1.00 0.00 1.00 1.00  0.00  NaN      NaN
+                       Block*      3 6 3.50 1.87    3.5    3.50 2.22 1.00 6.00  5.00 0.00    -1.80
+                       Yield       4 6 1.64 0.46    1.6    1.64 0.52 1.06 2.27  1.21 0.08    -1.88
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.19
+                       ----------------------------------------------------------- 
+                       Variety: Ladak
+                       Date: O7
+                                vars n mean   sd median trimmed  mad min  max range  skew kurtosis
+                       Variety*    1 6 1.00 0.00   1.00    1.00 0.00 1.0 1.00  0.00   NaN      NaN
+                       Date*       2 6 1.00 0.00   1.00    1.00 0.00 1.0 1.00  0.00   NaN      NaN
+                       Block*      3 6 3.50 1.87   3.50    3.50 2.22 1.0 6.00  5.00  0.00    -1.80
+                       Yield       4 6 1.82 0.41   1.92    1.82 0.33 1.1 2.23  1.13 -0.69    -1.14
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.17
+                       ----------------------------------------------------------- 
+                       Variety: Ranger
+                       Date: O7
+                                vars n mean   sd median trimmed  mad  min  max range skew kurtosis
+                       Variety*    1 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00  NaN      NaN
+                       Date*       2 6 1.00 0.00   1.00    1.00 0.00 1.00 1.00  0.00  NaN      NaN
+                       Block*      3 6 3.50 1.87   3.50    3.50 2.22 1.00 6.00  5.00 0.00     -1.8
+                       Yield       4 6 1.61 0.22   1.56    1.61 0.16 1.33 1.99  0.66 0.49     -1.2
+                                  se
+                       Variety* 0.00
+                       Date*    0.00
+                       Block*   0.76
+                       Yield    0.09</pre>
+                    <li>descript() - This function provides descriptive statistics (misty package)</li>
+                    <pre class="rcode">misty::descript(nlme::Alfalfa)</pre>
+                </ul>
+                <h2>Fitting a Model in lme4</h2>
+                <p class = "para">Fitting a model in <i>lme4</i> follows the following base structure. </p>
+                <pre class="rcode">library(lme4)
+                     mod = lmer(outcome ~ categorical_predictor + (1 | random_effect), data = dataset)</pre>
+                <p class = "para">The output from the model has four major sections: a description of the
+                    model that was fit, some statistics characterizing the model fit, a summary of properties of
+                    the random effects and a summary of the mixed-effects parameter estimates.</p>
+                <p class = "para">For example, the following code displays sample output. </p>
+                <pre class="rcode">Linear mixed model fit by maximum likelihood  ['lmerMod']
+                    Formula: Yield ~ 1 + (1 | Batch)
+                       Data: lme4::Dyestuff
+                    br
+                         AIC      BIC   logLik deviance df.resid 
+                       333.3    337.5   -163.7    327.3       27 
+                    br
+                    Scaled residuals: 
+                        Min      1Q  Median      3Q     Max 
+                    -1.4315 -0.7972  0.1480  0.7721  1.8037 
+                    br
+                    Random effects:
+                     Groups   Name        Variance Std.Dev.
+                     Batch    (Intercept) 1388     37.26   
+                     Residual             2451     49.51   
+                    Number of obs: 30, groups:  Batch, 6
+                    br
+                    Fixed effects:
+                                Estimate Std. Error t value
+                    (Intercept)  1527.50      17.69   86.33</pre>
+
+                    <p class = "para">In this case we have a single random effects term, (1|Batch), in the model formula and
+                        the grouping factor for that term is Batch. There will be a total of six random effects, one
+                        for each level of Batch.</p>
+
+                    <p class = "para">At this point the an thing to note is that the default estimation criterion is the
+                        REML (restricted maximum likelhood) criterion. Generally the REML estimates of variance components are preferred to
+                        the ML (full-information maximum likelhood) estimates. When comparing models, however, we will use likelihood ratio tests, for
+                        which the test statistic is the difference in the deviance of the fitted models (corresponds to the ratio of the likelhoods).</p>
+
+                        <p class = "para">The following section is the table of estimates of parameters associated with the random
+                            effects. In the above model we note that there are two main sources of variability - </p>
+                            <ul class = "list">
+                                <li>Batch - batch to batch variability in the level of the outcome variable. For each level of the batch variable, random effects are estimated and added to the intercept with an unconditional variance of 1388.33. </li>
+                                <img src="https://latex.codecogs.com/png.latex?%5Clarge%20b_%7Bbatch%7D%20%5Csim%20%5Cmathit%7BN%7D%280%2C%2037.26%29" alt="" class="equation">
+        
+                                <li>Residual - the random effect associated with the residual or per-observation variability (also referred to as the within-batch variability). The line labeled Residual in this table gives the estimate of the variance of the residuals
+                                     and its corresponding standard deviation. </li>
+                            </ul>
+                            <pre class="rcode">ranef(mod)</pre>
+                            <pre class="rcode">$Batch
+                                (Intercept)
+                              A  -16.628222
+                              B    0.369516
+                              C   26.974671
+                              D  -21.801446
+                              E   53.579825
+                              F  -42.494344
+                              
+                              with conditional variances for “Batch” </pre>
+                        <p class = "para">Not all the variability in the model is associated with the random effects. Some of the variability in the response is associated with the fixed-effects terms. </p>
+                        <pre class="code">> pr &lt;- profile(mod)
+                            > confint(pr)
+                            Name          2.5 %     97.5 %
+                            .sig01        12.19854   84.06305
+                            .sigma        38.22998   67.65770
+                            (Intercept) 1486.45150 1568.54849
+                            > lattice::xyplot(pr,absVal = T)</pre>
+                        <div cass = "plot">
+                        <img src="oldImages/img4.jpeg" alt="" class="graph">
+                        </div>
+                        <p class = "para">We can easily extract random effects from our model using - </p>
+                        <pre class="rcode">ranef(mod)
+                            $Batch
+                            (Intercept)
+                          A  -16.628222
+                          B    0.369516
+                          C   26.974671
+                          D  -21.801446
+                          E   53.579825
+                          F  -42.494344
+                          
+                          with conditional variances for “Batch”</pre>
+                        <p class = "para">However, it is important to know that these are conditional modes based on observed data instead of estimates for each category.</p>
+                        <p class = "para">We can extract prediction intervals for Mixed Effects Models using the following code - </p>
+                        <pre class="rcode">lattice::dotplot(ranef(mod, condVar=TRUE), strip = FALSE)
+                        </pre>
+                        <div class = "plot">
+                            <img src="oldImages/img5.jpeg" alt="" class="graph">
+                        </div>
+                        <p class ="para">This can be somewhat serve as a "significance test" for random effects. If the prediction intervals contain 0, one could claim that the variability in non-significant. </p>
+                        <p class = "para">An alternative function more useful when dealing with a large number of random effects is - </p>
+                        <pre class="rcode">qqmath(ranef(fm01ML, condVar=TRUE), strip = FALSE)</pre>
+                        <div class = "plot">
+                            <img src="oldImages/img6.jpeg" alt="" class="graph">
+                        </div>                        
+                        <p class ="para">This function focuses attention on the important effects and
+                            de-emphasizes the trivial many that are close to zero. These can serve as effect plots for random effects. </p>
+                        <p class = "para">To perform more formal significance tests, one can implement Likelhood Ratio Tests (LRT).</p>
+                        <pre class="rcode">> mod1 &lt;- lmer(strength ~ 1 + (1|sample),Pastes)
+                            > mod2 &lt;- lmer(strength ~ 1 + (1|sample) + (1|batch), Pastes)
+                            > anova(mod1, mod2)
+                            refitting model(s) with ML (instead of REML)
+                            Data: Pastes
+                            Models:
+                            mod1: strength ~ 1 + (1 | sample)
+                            mod2: strength ~ 1 + (1 | sample) + (1 | batch)
+                                 npar    AIC    BIC logLik deviance  Chisq Df Pr(>Chisq)
+                            mod1    3 254.40 260.69 -124.2   248.40                     
+                            mod2    4 255.99 264.37 -124.0   247.99 0.4072  1     0.5234</pre>
+                            <p class = "para">Assessing the output, we can state that model 2 (more complicated model) does not have a significantly lower deviance parameter. Hence, the addition of the additional parameter does not account for significant variance in the model. </p>
+                    
+    </div>
+
+    <div class="content3">
+        <h1 class="head">More Random Effects</h1>
+        <ol class = "toc">
+            <li><a href="#ref1">Random Intercept Model</a></li>
+            <li><a href="#ref2">Fitting a Random Intercept Model in R</a></li>
+            <li><a href="#ref3">Random Slope Model</a></li>
+            <li><a href="#ref4">More than 1 random effect</a></li>
+            <li><a href="#ref5">Crossed Random effects</a></li>
+            <li><a href="#ref6">Nested Random Effects</a></li>
+        </ol>
+        <h2 id = "ref1">Random Intercept Model Overview</h2> 
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Group-specific Intercepts</td>
+                    <td>Each group has its own intercept, reflecting its unique characteristics. These intercepts are random variables representing the deviation of each group’s mean from the overall mean.</td>
+                </tr>
+                <tr>
+                    <td>Common Slopes</td>
+                    <td>While intercepts vary across groups, slopes are assumed to be consistent across all groups.</td>
+                </tr>
+                <tr>
+                    <td>Intra-group Correlation</td>
+                    <td>Observations within the same group are more likely to be similar, leading to intra-group correlation, which the model accounts for.</td>
+                </tr>
+                <tr>
+                    <td>Flexibility and Generalization</td>
+                    <td>The model is flexible and applicable to various scenarios with nested or grouped data, handling different levels of variability.</td>
+                </tr>
+                <tr>
+                    <td>Improved Estimation and Inference</td>
+                    <td>By accounting for group-level variability, the model provides more accurate estimates of the fixed effects and reliable statistical inferences.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class = "para">The Random Intercept Model is used in statistics to analyze hierarchical or grouped data. Its general form can be represented as:</p>
+        <p class="para">
+            \(Y_{ij} = \beta_0 + \beta_1X_{ij} + b_i + \varepsilon_{ij}\)
+        </p>
+        <ul class="list">
+            <li><strong>\( Y_{ij} \):</strong> Response variable for the i-th group and the j-th observation within that group.</li>
+            <li><strong>\( \beta_0 \):</strong> Overall intercept of the model, representing the expected value of Y when all predictors are zero and there is no group effect.</li>
+            <li><strong>\( \beta_1 \):</strong> Slope coefficient for the predictor variable \( X_{ij} \), assumed to be constant across all groups.</li>
+            <li><strong>\( X_{ij} \):</strong> Predictor or independent variable, which can vary both within and between groups.</li>
+            <li><strong>\( b_i \):</strong> Random intercept for each group, accounting for the variation between groups. It is assumed to be normally distributed with a mean of zero and variance \( \sigma_b^2 \).</li>
+            <li><strong>\( \varepsilon_{ij} \):</strong> Random error term for each observation, representing the deviation of each observation from the expected value. It is assumed to be normally distributed with a mean of zero and variance \( \sigma_\varepsilon^2 \).</li>
+        </ul>
+        <p class="para">This model assumes that the relationship between Y and X is linear with a constant slope across all groups, but allows for different intercepts for each group, capturing the variability among them.</p>
+        <p class="para">The random intercepts \( b_i \) are assumed to be normally distributed with a mean of zero and variance \( \sigma_b^2 \). This means that the expected value of the random intercepts is zero, and the variance of the random intercepts is \( \sigma_b^2 \).</p>
+        <div class="plot"><img src="Rplot1.jpeg" alt=""></div>
+        <h2>Example (Data Used)</h2>
+        <p class="para">
+            An investigation to find out how much the variation from batch to batch in the
+            quality of an intermediate product (H-acid) contributes to the variation in the
+            yield of the dyestuff (Naphthalene Black 12B) made from it. In the experiment
+            six samples of the intermediate, representing different batches of works
+            manufacture, were obtained, and five preparations of the dyestuff were made
+            in the laboratory from each sample. The equivalent yield of each preparation
+            as grams of standard colour was determined by dye-trial.
+        </p>
+
+        <h2>Lme4 Library</h2>
+        <pre class="rcode">
+            install.packages('lme4')
+            library(lme4)
+        </pre>
+        <p class="para">The lme4 package is used to fit linear mixed models in the R programming language, using efficient algorithms. The models include random intercepts, random slopes, and correlated random effects for longitudinal data, and crossed random effects for hierarchical data.</p>
+        <h2>Examining the Data of Interest</h2>
+        <pre class="rcode">
+            data("Dyestuff", package = "lme4")
+            head(Dyestuff)
+            Dyestuff %>% xtabs(~Batch,data = .)
+            # Plot
+            Dyestuff %>% ggplot(aes(Yield, Batch)) +
+            geom_line() +
+            geom_point(aes(color = Batch),show.legend = F) +
+            papaja::theme_apa()
+
+        </pre>
+        <p class="para">It's is of paramount importance to visualize the variability within the group of interest, this can either be done using line plots when the fixed effect is the same as the random effect (Unconditional Random Effect Model)</p>
+        <div class="plot">
+            <img src="Rplot2.jpeg" alt="">
+        </div>
+        <p class="para">The first line of code shows us an important property of the data, namely that
+            there are exactly 5 observations on each batch. The second highlights the variability within in each group, which helps us determine whether a mixed effects model is warranted.</p>
+        <h2 id="ref2">Fitting a Mixed Effects Model in R</h2>
+        <p class="para">
+            In R, the <code>lmer</code> function, along with many other model-fitting functions, primarily requires two arguments: 
+            a formula that defines the model, and the data to be used for evaluating this formula. While the data argument 
+            is not mandatory, it is strongly recommended. Typically, this data argument is the name of a data frame, 
+            similar to the examples reviewed in the previous section. Throughout this book, all models are specified 
+            using this format of formula and data.
+        </p>
+        <pre class="rcode">
+            # Example
+            model = lmer(Outcome ~ Predictor + (1 | Random_Effect), data = dataset)
+            #Data Used
+            mod = lmer(Yield ~ 1 + (1 | Batch), data = Dyestuff)
+            summary(mod)
+        </pre>
+        <p class="para"><code>Yield ~ 1 + (1 | Batch)</code>, this line of code aims to fit the Yield as an intercept only model which examines whether the mean yield is significantly different from 0. The random component <code>(1|Batch)</code>, aims to capture between group variability within different Batches. </p>
+        <table>
+            <tr>
+                <th>Topic</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td>Model Fit Statistics</td>
+                <td>
+                    Model fitting using ML provides various statistics like AIC, BIC, logLik, and deviance. These statistics are essential for comparing different models fitted to the same dataset.
+                </td>
+            </tr>
+            <tr>
+                <td>REML vs ML Estimation</td>
+                <td>
+                    While REML is the default estimation criterion preferred for its variance component estimates, ML fits are used when comparing models using likelihood ratio tests. These tests use the difference in deviance (negative twice the log-likelihood) as the test statistic.
+                </td>
+            </tr>
+            <tr>
+                <td>Random Effects</td>
+                <td>
+                    The model includes random effects to account for batch-to-batch variability and within-batch variability (residual). These random effects are modeled as variables with their own variance estimates.
+                </td>
+            </tr>
+            <tr>
+                <td>Fixed Effects</td>
+                <td>
+                    Fixed effects in the model, such as the intercept, represent the overall typical or mean level of the response. The intercept is the constant in the model, with its standard error indicating the precision of this estimate.
+                </td>
+            </tr>
+            <tr>
+                <td>Observations and Grouping Factors</td>
+                <td>
+                    The model specifies the number of observations and levels of any grouping factors for random effects. Each level of the grouping factor contributes to the total count of random effects.
+                </td>
+            </tr>
+        </table>
+        <h2>Generating Confidence Intervals</h2>
+        <p class="para">Since Mixed Effects Models can't rely on the central limit theorm to assume normality and generate confidence intervals, we instead rely on other methods like the - profile deviance confidence intervals, and bootstrapped confidence intervals. </p>
+        <table>
+            <tr>
+                <th>Aspect</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>Model Parameters</td>
+                <td>The model has three main parameters: the standard deviation of random effects (σ₁), the standard deviation of the residual noise term (σ), and the fixed-effects parameter (β₀).</td>
+            </tr>
+            <tr>
+                <td>Profile Function</td>
+                <td>Assesses the best model fit with one parameter fixed, compared against the optimal fit where all parameters vary, using the deviance change as a likelihood ratio test statistic.</td>
+            </tr>
+            <tr>
+                <td>Profile Zeta Plot</td>
+                <td>Shows the model's sensitivity to changes in specific parameters. An ideal plot resembles a straight line, indicating reliable statistical inference.</td>
+            </tr>
+            <tr>
+                <td>Confidence Intervals</td>
+                <td>Proportions of the profile zeta plot provide confidence intervals for each parameter, derived from the test statistic.</td>
+            </tr>
+            <tr>
+                <td>Computational Intensity</td>
+                <td>Profiling a model is computationally demanding, especially for complex models or large datasets, involving multiple refittings of the model.</td>
+            </tr>
+            <tr>
+                <td>Confidence Interval Calculation</td>
+                <td>The <code>confint</code> function in R is used to extract numerical values of confidence interval endpoints, visualized in profile zeta plots.</td>
+            </tr>
+            <tr>
+                <td>Variance Estimates Interpretation</td>
+                <td>The distribution of variance estimators in complex models is often not well approximated by a normal distribution, making it difficult to summarize their precision with a standard error.</td>
+            </tr>
+            <tr>
+                <td>Distribution of Estimators</td>
+                <td>Estimators may exhibit various distribution patterns, from symmetric but over-dispersed relative to a normal distribution, to more complex and skewed distributions.</td>
+            </tr>
+        </table>
+        <div class="plot">
+            <img src="Rplot3.jpeg" alt="">
+        </div>
+        <p class="para">You can use the 'linearity test' for profile zeta plots to examine how well standard inferential tests would hold up. </p>
+        <h2>Interpreting Profile Zeta Plots</h2>
+        <table border="1">
+            <tr>
+              <th>Aspect</th>
+              <th>Details</th>
+            </tr>
+            <tr>
+              <td>Normal Approximation</td>
+              <td>If the profile zeta plot is reasonably straight, it indicates a good normal approximation for the parameter. A straight plot for log(\\sigma\) suggests a normal approximation for log(\(\sigma\)) but not necessarily for \(\sigma\) or \(\sigma^{2}\).</td>
+            </tr>
+            <tr>
+              <td>Skewed Distributions</td>
+              <td>Variance estimators' distributions in complex models often deviate from normal distribution. For instance, while the plot for log(\(\sigma\)) might be straight, the plots for \(\sigma\) or \(\sigma^{2}\) can be skewed, showing that simple standard errors are insufficient.</td>
+            </tr>
+            <tr>
+              <td>Sigmoidal Pattern</td>
+              <td>A sigmoidal (S-shaped) curve in the plot suggests symmetry but with over-dispersion relative to a normal distribution, common in estimators of coefficients in linear models without random effects.</td>
+            </tr>
+            <tr>
+              <td>Complex Behavior for Variance Components</td>
+              <td>Variance components like \(\sigma_{1}\) can exhibit complex behaviors on the profile zeta plot, especially near zero. The plot may flatten, indicating reduced sensitivity to changes in σ₁ when it is close to zero.</td>
+            </tr>
+            <tr>
+              <td>Overall Implication</td>
+              <td>The profile zeta plot provides detailed insights into the uncertainty and behavior of model parameters, highlighting the inadequacy of relying solely on standard errors for variance components.</td>
+            </tr>
+          </table>
+          <h2>Bootstrapped Confidence Intervals</h2>
+          <table>
+            <tr>
+              <th>Aspect</th>
+              <th>Details</th>
+            </tr>
+            <tr>
+              <td>Bootstrapping</td>
+              <td>Bootstrapping is a resampling method that involves repeatedly sampling from the original dataset to generate new datasets, which are then used to estimate the variability of the model parameters.</td>
+            </tr>
+            <tr>
+              <td>Bootstrapped Confidence Intervals</td>
+              <td>Bootstrapping provides a non-parametric method for estimating confidence intervals for model parameters, especially for complex models with non-normal distributions.</td>
+            </tr>
+            <tr>
+              <td>Bootstrapping in R</td>
+              <td>The bootMer function in the lme4 package is used to generate bootstrapped confidence intervals for mixed effects models.</td>
+            </tr>
+            <tr>
+              <td>Bootstrapping Intervals</td>
+              <td>Bootstrapped confidence intervals are generated by resampling the original dataset, fitting the model to each resampled dataset, and extracting the parameter estimates.</td>
+            </tr>
+          </table>
+          <h2>Code for Zeta Plots, profiled CI and Bootstrapped CI</h2>
+            <pre class="rcode">
+                # Zeta Plots
+                pr &lt;- profile(mod)
+                confint(pr)
+                lattice::xyplot(pr,absVal = T)
+                # Profiled CI
+                pr &lt;- profile(mod)
+                confint(pr)
+                # Bootstrapped CI
+                library(boot)
+                bootMer(mod, FUN = fixef, nsim = 1000)
+                # General Confidence Intervals
+                confint(Model, level = 0.95,
+	            method = c("profile", "Wald", "boot"), zeta,
+	            nsim = 500,
+                boot.type = c("perc","basic","norm"),
+                oldNames = T)
+            </pre>
+        <h2>Deriving Density Plots</h2>
+        <pre class="rcode">
+            lattice::densityplot(pr)
+        </pre>
+        <div class="image">
+            <img src="Rplot4.jpeg" alt="">
+        </div>
+        <p class="para">density plots derived from the profile zeta function reveal the distribution characteristics of the parameters. Specifically, the density for variance component \(\sigma_{1}\) is observed to be significantly skewed, highlighting the asymmetrical nature of its distribution. This insight is crucial in understanding the underlying variability and uncertainty associated with the model's parameters.</p>
+        <p class="para">This model is particularly useful for understanding both the overall trend in reaction time due to sleep deprivation and the individual differences among subjects that are not explained by the days of sleep deprivation.</p>
+        <h2>Example 2 - Data</h2> 
+        <p class="para">The data used in this example is from the <a href="https://www.rdocumentation.org/packages/lme4/versions/1.1-23/topics/SleepStudy">SleepStudy</a> dataset in the lme4 package. The dataset contains the reaction times of 18 subjects in a sleep deprivation study. The subjects were tested on three different days: baseline, day 1, and day 2. The goal is to understand the effect of sleep deprivation on reaction time, while accounting for the individual differences among subjects.</p>
+        <pre class="code">
+            mod &lt;- lmer(Reaction ~ Days + (1|Subject),data = sleepstudy,REML = T)
+            summary_mod &lt;- mod %>% summary
+            slope &lt;- rep(summary_mod$coefficients[2,1], length(intercepts))
+            intercepts &lt;- lme4::ranef(mod)[[1]] + summary_mod$coefficients[1,1]
+        </pre>
+        <h2>Plotting the Intercepts</h2> 
+        <pre class="code">
+            sleepstudy %>% mutate(slopes = slope, intercepts = rep(intercepts %>% unlist,each = 10)) %>% 
+                ggplot(aes(x = Days, y = intercepts + slopes*Days)) +
+                geom_line(aes(group = Subject), color = 'red') +
+                geom_smooth(method = 'lm', color = 'black', linewidth = 3, se = F) +
+                labs(title = "Random Intercept Model", x = "X Value", y = "Y Value") +
+                papaja::theme_apa()
+        </pre>  
+        <div class="plot">
+            <img src="Rplot5.jpeg" alt="">
+        </div>
+        <p class="para">The plot shows the individual trajectories of reaction time for each subject, along with the overall trend of Reaction Time over Days. The overall trend is estimated by the fixed effect of Days, while the individual trajectories are estimated by the random intercepts for each subject.</p>         
+        <h2>Examining the significance of individual Random Effects</h2>
+        <pre class="code">
+            qqmath(ranef(fm01ML, condVar=TRUE), strip = FALSE)
+        </pre>
+        <div class="plot">
+            <img src="Rplot6.jpeg" alt="">
+        </div>
+        <h2 id="ref3">Random Slope Model</h2>
+        <table>
+            <tr>
+                <th>Component</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>Level 1 Model</td>
+                <td>\( Y_{ij} = \beta_{0j} + \beta_{1j}X_{ij} + \epsilon_{ij} \)<br/>
+                    - \( Y_{ij} \): Dependent variable for individual \( i \) in group \( j \).<br/>
+                    - \( X_{ij} \): Independent variable for individual \( i \) in group \( j \).<br/>
+                    - \( \beta_{0j} \), \( \beta_{1j} \): Group-specific intercept and slope.<br/>
+                    - \( \epsilon_{ij} \): Residual error for individual \( i \) in group \( j \).
+                </td>
+            </tr>
+            <tr>
+                <td>Level 2a Model</td>
+                <td>\( \beta_{0j} = \gamma_{00} + \delta_{0j} \)<br/>
+                    - \( \gamma_{00} \): Fixed effect, representing the overall average intercept across all groups.<br/>
+                    - \( \delta_{0j} \): Random effect component for intercepts, showing each group's deviation from the overall average.
+                </td>
+            </tr>
+            <tr>
+                <td>Level 2b Model</td>
+                <td>\( \beta_{1j} = \gamma_{10} + \delta_{1j} \)<br/>
+                    - \( \gamma_{10} \): Fixed effect, representing the overall average slope across all groups.<br/>
+                    - \( \delta_{1j} \): Random effect component for slopes, showing each group's deviation from the overall average.
+                </td>
+            </tr>
+            <tr>
+                <td>Variance-Covariance Matrix</td>
+                <td>\[ \begin{pmatrix} \tau_{00}^2 & \tau_{01} \\ \tau_{01} & \tau_{11}^2 \end{pmatrix} \]<br/>
+                    - \( \tau_{00}^2 \): Variance of the random intercepts.<br/>
+                    - \( \tau_{11}^2 \): Variance of the random slopes.<br/>
+                    - \( \tau_{01} \): Covariance between random intercepts and slopes.
+                </td>
+            </tr>
+            <tr>
+                <td>Parameters to Estimate</td>
+                <td>
+                    - Fixed effects: \( \gamma_{00} \) and \( \gamma_{10} \).<br/>
+                    - Random-effects variances: \( \tau_{00}^2 \), \( \tau_{11}^2 \), and \( \sigma^2 \).<br/>
+                    - Covariance: \( \tau_{01} \).
+                </td>
+            </tr>
+        </table>
+        <h2>Fitting a Random Slope Model in R</h2>
+        <pre class="rcode">
+            sleepstudy %>% as_tibble()
+            mod2 &lt;- lmer(Reaction ~ Days + (1+ Days|Subject),data = sleepstudy,REML = T)
+            summary_mod &lt;- mod2 %>% summary
+        </pre>
+        <h2>Interpreting the Model Output</h2>
+        <pre class="rcode">
+            Linear mixed model fit by REML ['lmerMod']
+            Formula: Reaction ~ Days + (1 + Days | Subject)
+               Data: sleepstudy
+            
+            REML criterion at convergence: 1743.6
+            
+            Scaled residuals: 
+                Min      1Q  Median      3Q     Max 
+            -3.9536 -0.4634  0.0231  0.4634  5.1793 
+            
+            Random effects:
+             Groups   Name        Variance Std.Dev. Corr
+             Subject  (Intercept) 612.10   24.741       
+                      Days         35.07    5.922   0.07
+             Residual             654.94   25.592       
+            Number of obs: 180, groups:  Subject, 18
+            
+            Fixed effects:
+                        Estimate Std. Error t value
+            (Intercept)  251.405      6.825  36.838
+            Days          10.467      1.546   6.771
+            
+            Correlation of Fixed Effects:
+                 (Intr)
+            Days -0.138
+        </pre>
+        <table border="1">
+            <tr>
+                <th>Component</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>Model Formula</td>
+                <td>Reaction ~ Days + (1 + Days | Subject)<br/>
+                    - Predicts reaction time based on days, allowing both intercept and slope (effect of days) to vary by subject.
+                </td>
+            </tr>
+            <tr>
+                <td>Data</td>
+                <td>sleepstudy</td>
+            </tr>
+            <tr>
+                <td>REML Criterion</td>
+                <td>1743.6<br/>
+                    - Lower REML criterion compared to a model without random slopes, suggesting a better fit.
+                </td>
+            </tr>
+            <tr>
+                <td>Random Effects</td>
+                <td>
+                    - Groups: Subject<br/>
+                    - Intercept Variance: 612.10, Std.Dev.: 24.741<br/>
+                    - Slope Variance for Days: 35.07, Std.Dev.: 5.922<br/>
+                    - Correlation between Intercept and Slope: 0.07<br/>
+                    - Indicates variability in baseline reaction time and the effect of days among subjects.
+                </td>
+            </tr>
+            <tr>
+                <td>Residual</td>
+                <td>
+                    - Variance: 654.94, Std.Dev.: 25.592<br/>
+                    - Represents variability in reaction times around the subject-specific regression lines.
+                </td>
+            </tr>
+            <tr>
+                <td>Fixed Effects</td>
+                <td>
+                    - Intercept (251.405): Average baseline reaction time when days are zero.<br/>
+                    - Slope for Days (10.467): Average change in reaction time per day across all subjects.<br/>
+                    - The high t-values suggest significant effects for both intercept and slope.
+                </td>
+            </tr>
+            <tr>
+                <td>Correlation of Fixed Effects</td>
+                <td>-0.138<br/>
+                    - Indicates a very mild negative correlation between the intercept and the slope.
+                </td>
+            </tr>
+        </table>
+        <h2>Visualizing model design</h2>
+        <pre class="code">
+            Subject
+            Days    308 309 310 330 331 332 333 334 335 337 349 350 351 352 369 370 371 372
+              0       1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+              1       1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+              2       1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+              3       1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+              4       1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+              5       1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+              6       1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+              7       1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+              8       1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+              9       1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+              TOTAL  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10
+                   Subject
+            Days    TOTAL
+              0        18
+              1        18
+              2        18
+              3        18
+              4        18
+              5        18
+              6        18
+              7        18
+              8        18
+              9        18
+              TOTAL   180
+        </pre>
+        <h2>Visualizing Individual Slopes and Intercepts</h2> 
+        <pre class="rcode">
+            sleepstudy %>% ggplot(aes(Days, Reaction, group = Subject)) +
+                geom_smooth(method = 'lm', se = F, color= 'red', linewidth = 0.4) +
+                geom_smooth(aes(group = 1), method = 'lm', se = F, linewidth = 3) +
+                papaja::theme_apa()
+        </pre>
+        <div class="plot">
+            <img src="Rplot7.jpeg" alt="">
+        </div>   
+        <h2>Profile Zeta Plots and Densities</h2>
+        <pre class="rcode">
+            pr &lt;- profile(mod2)
+            confint(pr)
+            lattice::xyplot(pr,absVal = T)
+            lattice::densityplot(pr)
+        </pre>
+        <div class="plot">
+            <img src="Rplot8.jpeg" alt="">
+        </div>
+        <div class="plot">
+            <img src="Rplot9.jpeg" alt="">
+        </div>    
+        <h2>Examining Significance of Fixed and Random Effects</h2>
+        <pre class="rcode">
+            Linear mixed model fit by REML. t-tests use Satterthwaite's method [lmerModLmerTest]
+            Formula: Reaction ~ Days + (1 + Days | Subject)
+            Data: sleepstudy
+
+            REML criterion at convergence: 1743.6
+
+            Scaled residuals: 
+                Min      1Q  Median      3Q     Max 
+            -3.9536 -0.4634  0.0231  0.4634  5.1793 
+
+            Random effects:
+            Groups   Name        Variance Std.Dev. Corr
+            Subject  (Intercept) 612.10   24.741       
+                    Days         35.07    5.922   0.07
+            Residual             654.94   25.592       
+            Number of obs: 180, groups:  Subject, 18
+
+            Fixed effects:
+                        Estimate Std. Error      df t value Pr(>|t|)    
+            (Intercept)  251.405      6.825  17.000  36.838  &lt; 2e-16 ***
+            Days          10.467      1.546  17.000   6.771 3.26e-06 ***
+            ---
+            Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+            Correlation of Fixed Effects:
+                (Intr)
+            Days -0.138
+        </pre>
+        <div class="plot"><img src="Rplot10.jpeg" alt=""></div>
+        <pre class="code">
+            > confint(mod, level = 0.95, method = 'boot', nsim = 500, boot.type = 'norm', oldNames= F)
+            2.5 %      97.5 %
+            sd_(Intercept)|Subject        13.9734467  36.7379504
+            cor_Days.(Intercept)|Subject  -0.6578124   0.6624803
+            sd_Days|Subject                3.8317422   8.3000868
+            sigma                         22.5161914  28.5826141
+            (Intercept)                  237.7349260 264.7031014
+            Days                           7.5921908  13.4109238
+        </pre>
+    <h2 id="ref4">More than 1 random effect</h2>
+    <table border="1">
+        <tr>
+            <th>Aspect</th>
+            <th>Crossed Random Effects</th>
+            <th>Nested Random Effects</th>
+        </tr>
+        <tr>
+            <td>Definition</td>
+            <td>
+                Random effects are crossed when each level of one factor appears with each level of another factor. All combinations of factor levels are present.
+            </td>
+            <td>
+                Random effects are nested when each level of one factor appears only within a single level of another factor. There are unique subgroups within the main groups.
+            </td>
+        </tr>
+        <tr>
+            <td>Example Data</td>
+            <td>
+                Penicillin data: Measures the effect of different samples of penicillin across various plates.
+            </td>
+            <td>
+                Pastes data: Analyzes the strength of chemical paste from different casks within batches.
+            </td>
+        </tr>
+        <tr>
+            <td>Grouping Factors</td>
+            <td>
+                Completely crossed: Sample and plate factors, with at least one observation for each combination.
+            </td>
+            <td>
+                Nested: Sample within batch, where each sample is associated with only one batch.
+            </td>
+        </tr>
+        <tr>
+            <td>Model Complexity</td>
+            <td>
+                Can be complex due to the large number of combinations between factors.
+            </td>
+            <td>
+                Generally simpler, with a clear hierarchical structure.
+            </td>
+        </tr>
+        <tr>
+            <td>Statistical Analysis</td>
+            <td>
+                Requires careful handling of multiple random effects and their interactions.
+            </td>
+            <td>
+                Focuses on variability within nested groups and between main groups.
+            </td>
+        </tr>
+        <tr>
+            <td>Key Considerations</td>
+            <td>
+                Important to capture the interaction between all levels of the crossed factors.
+            </td>
+            <td>
+                Essential to recognize the hierarchy and ensure correct grouping of nested factors.
+            </td>
+        </tr>
+        <tr>
+            <td>Typical Applications</td>
+            <td>
+                Often used in experiments where multiple factors independently contribute to the outcome.
+            </td>
+            <td>
+                Common in studies where subgroups are a part of larger groups (e.g., students within classrooms).
+            </td>
+        </tr>
+    </table>
+    <h2 id="ref5">Crossed Random Effects</h2>
+    <p>Crossed random effects models are used in statistical analysis to account for variability from multiple sources. Unlike nested models, where factors are hierarchically structured, crossed models involve factors that independently interact with each other across all levels. This complexity allows for a more nuanced understanding of the data, especially in situations where factors are not hierarchically related but still contribute to the outcome.</p>
+    <h2>Example 1 - Data Used</h2>
+    <p class="para">The data used in this example is from the <a href="https://www.rdocumentation.org/packages/lme4/versions/1.1-23/topics/Penicillin">Penicillin</a> dataset in the lme4 package. The dataset contains the effect of different samples of penicillin across various plates. The goal is to understand the effect of sample and plate on the penicillin effect, while accounting for the variability within each sample and plate.</p>
+    <h2>Examine the crossed structure of the data</h2>
+    <pre class="rcode">
+        > Penicillin %>% group_by(sample) %>% count
+# A tibble: 6 x 2
+# Groups:   sample [6]
+  sample     n
+  <fct>  <int>
+1 A         24
+2 B         24
+3 C         24
+4 D         24
+5 E         24
+6 F         24
+> Penicillin %>% group_by(plate) %>% count
+# A tibble: 24 x 2
+# Groups:   plate [24]
+   plate     n
+   <fct> <int>
+ 1 a         6
+ 2 b         6
+ 3 c         6
+ 4 d         6
+ 5 e         6
+ 6 f         6
+ 7 g         6
+ 8 h         6
+ 9 i         6
+10 j         6
+# … with 14 more rows
+#  Use `print(n = ...)` to see more rows
+    </pre>
+    <pre class="rcode">
+        > xtabs(~sample+plate,data = Penicillin)
+      plate
+sample a b c d e f g h i j k l m n o p q r s t u v w x
+     A 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+     B 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+     C 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+     D 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+     E 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+     F 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    </pre>
+    <h2>Fitting the model in R</h2>
+    <pre class="rcode">
+        mod3 &lt;- lmer(Effect ~ 1 + (1|Sample) + (1|Plate),data = Penicillin,REML = T)
+        summary_mod &lt;- mod3 %>% summary
+    </pre>
+    <h2>Interpreting the Model Output</h2>
+    <pre class="rcode">
+        Linear mixed model fit by REML [lmerMod]
+        Formula: diameter ~ 1 + (1 | plate) + (1 | sample)
+        Data: Penicillin
+        REML criterion at convergence: 330.9
+        Scaled residuals:
+        Min 1Q Median 3Q Max
+        -2.07923 -0.67140 0.06292 0.58377 2.97959
+        Random effects:
+        Groups Name Variance Std.Dev.
+        plate (Intercept) 0.7169 0.8467
+        sample (Intercept) 3.7311 1.9316
+        Residual 0.3024 0.5499
+        Number of obs: 144, groups: plate, 24; sample, 6
+        Fixed effects:
+        \t\t Estimate Std. Error t value
+        (Intercept) 22.9722 0.8086 28.41
+    </pre>
+    <h2>Interpreting the Model output</h2>
+    <table border="1">
+        <tr>
+            <th>Component</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Model Formula</td>
+            <td>Effect ~ 1 + (1|Sample) + (1|Plate)<br/>
+                - Predicts the effect of penicillin based on sample and plate, allowing both intercepts to vary by sample and plate.
+            </td>
+        </tr>
+        <tr>
+            <td>Data</td>
+            <td>Penicillin</td>
+        </tr>
+        <tr>
+            <td>REML Criterion</td>
+            <td>330.9<br/>
+                - Lower REML criterion compared to a model without random effects would indicate a better fit.
+            </td>
+        </tr>
+        <tr>
+            <td>Random Effects</td>
+            <td>
+                - Groups: Sample, Plate<br/>
+                - Intercept Variance for Sample: 3.7311, Std.Dev.: 1.9316<br/>
+                - Intercept Variance for Plate: 0.7169, Std.Dev.: 0.8467<br/>
+                - Indicates variability in the effect of penicillin among samples and plates.
+            </td>
+        </tr>
+        <tr>
+            <td>Residual</td>
+            <td>
+                - Variance: 0.3024, Std.Dev.: 0.5499<br/>
+                - Represents variability in the effect of penicillin around the sample-specific regression lines.
+            </td>
+        </tr>
+        <tr>
+            <td>Fixed Effects</td>
+            <td>
+                - Intercept (22.9722): Average effect of penicillin when sample and plate are zero.<br/>
+                - The high t-value suggests a significant effect for the intercept.
+            </td>
+        </tr>
+    </table>
+    <h2>Visualizing the effect</h2>
+    <pre class="rcode">
+        ef &lt;- ranef(mod3)
+        lattice::dotplot(ef)
+    </pre>
+    <div class="plot">
+        <img src="Rplot11.jpeg" alt="">
+    </div>
+    <div class="plot">
+        <img src="Rplot12.jpeg" alt="">
+    </div>
+    <h2>Profile Zeta Plots and Densities</h2>
+    <pre class="rcode">
+        pr &lt;- profile(mod3)
+        confint(pr)
+        lattice::xyplot(pr,absVal = T)
+        lattice::densityplot(pr)
+    </pre>
+    <div class="plot">
+        <img src="Rplot13.jpeg" alt="">
+    </div>
+    <div class="plot">
+        <img src="Rplot14.jpeg" alt="">
+    </div>
+    <p class="para">
+        The observed prediction intervals for random effects, as illustrated, indicates a notable difference in variability between the random effects for plates and samples. Specifically, the random effects associated with the plates demonstrate lower variability compared to those for the samples. This observation is evident when comparing the variability of data points in the bottom panel (for plates) with those in the top panel (for samples), even when considering the different scales on the horizontal axes of these panels. Additionally, when examining a specific sample, such as 'F', it shows less variability in its random effects compared to a specific plate, like 'm'. This difference in variability is attributed to the fact that the random effect for a given sample is based on 24 responses, whereas for a given plate, it is based on only 6 responses. This disparity in response numbers leads to wider intervals for the plates than for the samples, despite the variations in axis scales.
+    </p>
+    <h2>Examining Significance of Fixed and Random Effects</h2>
+    <pre class="rcode">
+        lattice::qqmath(ranef(mod, condVar=TRUE), strip = FALSE)
+        lmerTest::lmer(Reaction ~ Days + (1+ Days|Subject),data = sleepstudy,REML = T,) %>% summary
+    </pre>
+    <pre class="rcode">
+        > lmerTest::lmer(diameter ~ 1 + (1|sample) + (1|plate),data = Penicillin) %>% summary
+        Linear mixed model fit by REML. t-tests use Satterthwaite's method [lmerModLmerTest]
+        Formula: diameter ~ 1 + (1 | sample) + (1 | plate)
+        Data: Penicillin
+
+        REML criterion at convergence: 330.9
+
+        Scaled residuals: 
+            Min       1Q   Median       3Q      Max 
+        -2.07923 -0.67140  0.06292  0.58377  2.97959 
+
+        Random effects:
+        Groups   Name        Variance Std.Dev.
+        plate    (Intercept) 0.7169   0.8467  
+        sample   (Intercept) 3.7311   1.9316  
+        Residual             0.3024   0.5499  
+        Number of obs: 144, groups:  plate, 24; sample, 6
+
+        Fixed effects:
+                    Estimate Std. Error      df t value Pr(>|t|)    
+        (Intercept)  22.9722     0.8086  5.4866   28.41 3.62e-07 ***
+        ---
+        Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+    </pre>
+    <h2 id = "ref6">Nested Random Effects</h2>
+    <p>Nested random effects models are used in statistical analysis to account for variability from multiple sources. Unlike crossed models, where factors are not hierarchically related, nested models involve factors that are hierarchically structured. This structure allows for a more nuanced understanding of the data, especially in situations where factors are hierarchically related and contribute to the outcome.</p>
+    <h2>Example 2 - Data Used</h2>
+    <p class="para">The data used in this example is from the <a href="https://www.rdocumentation.org/packages/lme4/versions/1.1-23/topics/Pastes">Pastes</a> dataset in the lme4 package. The dataset contains the strength of chemical paste from different casks within batches. The goal is to understand the effect of batch and cask on the strength of the paste, while accounting for the variability within each batch and cask.</p>
+    <h2>Examine the nested structure of the data</h2>
+    <pre class="rcode">
+        > xtabs(~ batch + cask, Pastes) %>% vcd::mar_table()
+            cask
+        batch  a  b  c   TOTAL
+        A      2  2  2     6
+        B      2  2  2     6
+        C      2  2  2     6
+        D      2  2  2     6
+        E      2  2  2     6
+        F      2  2  2     6
+        G      2  2  2     6
+        H      2  2  2     6
+        I      2  2  2     6
+        J      2  2  2     6
+        TOTAL 20 20 20    60
+    </pre>
+    <p class="para">Due to the nesting structure of casks within batches, we could create an interaction between the 2 variables. </p>
+    <h2>Visualizing the Effect</h2>
+    <div class="plot">
+        <img src="Rplot15.jpeg" alt="">
+    </div>
+    <h2>Fitting the model in R</h2>
+    <pre class="rcode">
+        mod4 &lt;- lmer(strength ~ 1 + (1|batch/cask),data = Pastes,REML = T)
+        summary_mod &lt;- mod4 %>% summary
+    </pre>
+    <pre class="rcode">
+        mod5 &lt;- lmer(strength ~ 1 + (1|sample),data = Pastes,REML = T)
+        summary_mod &lt;- mod5 %>% summary
+    </pre>
+
+    <pre class="rcode">
+        mod6 &lt;- lmer(strength ~ 1 + (1|sample),data = Pastes,REML = T)
+        summary_mod6 &lt;- mod6 %>% summary
+    </pre>
+    <h2>Interpreting the Model Outputs</h2>
+    <pre class="rcode">
+        Linear mixed model fit by REML ['lmerMod']
+        Formula: strength ~ 1 + (1 | sample) + (1 | batch)
+        Data: Pastes
+
+        REML criterion at convergence: 247
+
+        Scaled residuals: 
+            Min      1Q  Median      3Q     Max 
+        -1.4798 -0.5156  0.0095  0.4720  1.3897 
+
+        Random effects:
+        Groups   Name        Variance Std.Dev.
+        sample   (Intercept) 8.434    2.9041  
+        batch    (Intercept) 1.657    1.2874  
+        Residual             0.678    0.8234  
+        Number of obs: 60, groups:  sample, 30; batch, 10
+
+        Fixed effects:
+                    Estimate Std. Error t value
+        (Intercept)  60.0533     0.6769   88.72
+    </pre>
+    <h2>Restricted Model</h2>
+    <pre class="rcode">
+        Linear mixed model fit by REML ['lmerMod']
+        Formula: strength ~ 1 + (1 | sample)
+        Data: Pastes
+
+        REML criterion at convergence: 247.6
+
+        Scaled residuals: 
+            Min       1Q   Median       3Q      Max 
+        -1.48856 -0.53466  0.01155  0.46527  1.38852 
+
+        Random effects:
+        Groups   Name        Variance Std.Dev.
+        sample   (Intercept) 9.977    3.1586  
+        Residual             0.678    0.8234  
+        Number of obs: 60, groups:  sample, 30
+
+        Fixed effects:
+                    Estimate Std. Error t value
+        (Intercept)  60.0533     0.5864   102.4
+    </pre>
+    <h2> Interpreting the model output </h2>
+    <table>
+        <tr>
+            <th>Parameter</th>
+            <th>Description</th>
+            <th>Value</th>
+            <th>Interpretation</th>
+        </tr>
+        <tr>
+            <td>\(\sigma_1\)</td>
+            <td>Standard deviation of the random effects for sample</td>
+            <td>\(2.904\)</td>
+            <td>Significantly larger variability in samples compared to batches</td>
+        </tr>
+        <tr>
+            <td>\(\sigma_2\)</td>
+            <td>Standard deviation of the random effects for batch</td>
+            <td>\(1.095\)</td>
+            <td>Smaller variability in batches; may not be a significant batch-to-batch variability</td>
+        </tr>
+        <tr>
+            <td>\(\beta_0\)</td>
+            <td>Overall mean response (Intercept)</td>
+            <td>\(60.053\)</td>
+            <td>Represents the mean strength across all samples and batches</td>
+        </tr>
+        <tr>
+            <td>\(\sigma_\epsilon\)</td>
+            <td>Standard deviation of the residual noise term</td>
+            <td>\(0.823\)</td>
+            <td>Indicates the extent of variability not captured by the model</td>
+        </tr>
+        <tr>
+            <td colspan="4">Key Findings:</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <ul>
+                    <li>Prediction intervals for random effects of batches include zero, suggesting limited between-batch variability.</li>
+                    <li>The profile zeta plot indicates the possibility of \(\sigma_2\) being zero, leading to the consideration of a simpler model.</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+    <h2>Profile Zeta Plots and Densities</h2>
+    <pre class="rcode">
+        pr &lt;- profile(mod5)
+        confint(pr)
+        lattice::xyplot(pr,absVal = T)
+        lattice::densityplot(pr)
+    </pre>
+    <div class="plot">
+        <img src="Rplot16.jpeg" alt="">
+    </div>
+    <div class="plot">
+        <img src="Rplot17.jpeg" alt="">
+    </div>
+    <h2>Assessing Random Effects</h2>
+    <pre class="rcode">
+        lattice::qqmath(ranef(mod5, condVar=TRUE), strip = FALSE)
+    </pre>
+    <div class="plot">
+        <img src="Rplot18.jpeg" alt="">
+    </div>
+    <div class="plot">
+        <img src="Rplot19.jpeg" alt="">
+    </div>
+    <h2>Comparing the two Models</h2>
+    <pre class="rcode">
+        > anova(mod5, mod6)
+            refitting model(s) with ML (instead of REML)
+            Data: Pastes
+            Models:
+            mod6: strength ~ 1 + (1 | sample)
+            mod5: strength ~ 1 + (1 | sample) + (1 | batch)
+                npar    AIC    BIC logLik deviance  Chisq Df Pr(>Chisq)
+            mod6    3 254.40 260.69 -124.2   248.40                     
+            mod5    4 255.99 264.37 -124.0   247.99 0.4072  1     0.5234
+    </pre>
+    <p class = "para">
+        But as they say KISS, not that kind but the acronym Keep.It.Simple.Stupid, reflects the principle of parsimony in statistical modeling, particularly in hypothesis testing. This involves comparing two models: a more general model (alternate hypothesis) and a restricted model (Null hypothesis). The comparison isn't about the parameter values themselves, but about how well each model fits, with alternate hypothesis being more complex and null hypothesis having constraints on some parameters. If the p-value, representing the probability of observing a model fit difference due to random chance, is small, alternate hypothesis is preferred, indicating a rejection of null hypothesis. A large p-value leads to a preference for the simpler null hypothesis model. This testing process involves using a test statistic, often the difference in deviance between the two models, and comparing it against a reference distribution, commonly a chi-squared distribution with degrees of freedom determined by the number of constraints. The p-value is then calculated as the probability of observing a test statistic value as extreme as the one observed, given the reference distribution.
+    </p>
+    <h2>Additional way of fitting the model</h2>
+    <pre class="rcode">
+        mod7 &lt;- lmer(strength ~ 1 + (1|batch) + (1|batch:sample),data = Pastes,REML = T)
+        summary_mod7 &lt;- mod7 %>% summary
+    </pre>
+    
+
+    </div>
+
+    <div class="content4">
+        <h1 class="head">Page is currently Hidden</h1>
+    </div>
+    <div class="content5">
+        <h2>General Formulas in R</h2>
+        <table>
+            <tr>
+              <th>Formula</th>
+              <th>Meaning</th>
+            </tr>
+            <tr>
+              <td>(1 | group)</td>
+              <td>Random group intercept</td>
+            </tr>
+            <tr>
+              <td>(x | group) = (1 + x | group)</td>
+              <td>Random slope of x within group with correlated intercept</td>
+            </tr>
+            <tr>
+              <td>(0 + x | group) = (-1 + x | group)</td>
+              <td>Random slope of x within group: no variation in intercept</td>
+            </tr>
+            <tr>
+              <td>(1 | group) + (0 + x | group)</td>
+              <td>Uncorrelated random intercept and random slope within group</td>
+            </tr>
+            <tr>
+              <td>(1 | site/block) = (1 | site) + (1 | site:block)</td>
+              <td>Intercept varying among sites and among blocks within sites (nested random effects)</td>
+            </tr>
+            <tr>
+              <td>site + (1 | site:block)</td>
+              <td>Fixed effect of sites plus random variation in intercept among blocks within sites</td>
+            </tr>
+            <tr>
+              <td>(x | site/block) = (x | site) + (x | site:block) = (1 + x | site) + (1 + x | site:block)</td>
+              <td>Slope and intercept varying among sites and among blocks within sites</td>
+            </tr>
+            <tr>
+              <td>(x1 | site) + (x2 | block)</td>
+              <td>Two different effects, varying at different levels</td>
+            </tr>
+            <tr>
+              <td>x * site + (x | site:block)</td>
+              <td>Fixed effect variation of slope and intercept varying among sites and random variation of slope and intercept among blocks within sites</td>
+            </tr>
+            <tr>
+              <td>(1 | group1) + (1 | group2)</td>
+              <td>Intercept varying among crossed random effects (e.g., site, year)</td>
+            </tr>
+        </table>
+        <h2>Equations and their respective Code</h2>
+        <table>
+            <tr>
+              <th>Equation</th>
+              <th>Formula</th>
+            </tr>
+            <tr>
+              <td>\(\beta_0 + \beta_1X_i + e_{si}\)</td>
+              <td>n/a (Not a mixed-effects model)</td>
+            </tr>
+            <tr>
+              <td>\((\beta_0 + b_{S,0s}) + \beta_1X_i + e_{si}\)</td>
+              <td>\(\sim X + (1 | \text{Subject})\)</td>
+            </tr>
+            <tr>
+              <td>\((\beta_0 + b_{S,0s}) + (\beta_1 + b_{S,1s})X_i + e_{si}\)</td>
+              <td>\(\sim X + (1 + X | \text{Subject})\)</td>
+            </tr>
+            <tr>
+              <td>\((\beta_0 + b_{S,0s} + b_{I,0i}) + (\beta_1 + b_{S,1s})X_i + e_{si}\)</td>
+              <td>\(\sim X + (1 + X | \text{Subject}) + (1 | \text{Item})\)</td>
+            </tr>
+            <tr>
+              <td>As above, but \(b_{S,0s}\), \(b_{S,1s}\) independent</td>
+              <td>\(\sim X + (1 | \text{Subject}) + (0 + X | \text{Subject}) + (1 | \text{Item})\)</td>
+            </tr>
+            <tr>
+              <td>\((\beta_0 + b_{S,0s} + b_{I,0i}) + \beta_1X_i + e_{si}\)</td>
+              <td>\(\sim X + (1 | \text{Subject}) + (1 | \text{Item})\)</td>
+            </tr>
+            <tr>
+              <td>\((\beta_0 + b_{I,0i}) + (\beta_1 + b_{S,1s})X_i + e_{si}\)</td>
+              <td>\(\sim X + (0 + X | \text{Subject}) + (1 | \text{Item})\)</td>
+            </tr>
+        </table>
+        <h2>Why can't I use p values?</h2>
+        <p class = "para">The p-values are not reliable for mixed-effects models. The reason is that the p-values are based on the assumption that the degrees of freedom are fixed. However, in mixed-effects models, the degrees of freedom are random. This is because the degrees of freedom are based on the number of levels of the random effects. Since the number of levels of the random effects is random, the degrees of freedom are random. Therefore, the p-values are not reliable.</p>
+        <p class = "para">The <code>lme4</code> package in R does not provide p-values for mixed-effects models because the calculation of these values depends on knowing the denominator degrees of freedom for the test statistics, which can be complex in models with unbalanced designs or multiple random effects. The difficulty lies in the non-standard distribution of the test statistics, especially for generalized linear mixed models (GLMMs). Instead of p-values, alternative methods such as confidence intervals, bootstrapping, Bayesian approaches, likelihood ratio tests, and information criteria like AIC or BIC are used to assess the significance and stability of fixed effects in mixed-effects models. Approximations such as Kenward-Roger or Satterthwaite can also provide estimated degrees of freedom, allowing for the calculation of approximate p-values.</p>
+        <h2>Restricted Estimation Maximum Likelhood</h2>
+        <table>
+            <tr>
+                <th>Aspect</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>Purpose</td>
+                <td>Used to estimate variance components of random effects in mixed models, focusing on unbiased estimation of these components.</td>
+            </tr>
+            <tr>
+                <td>Difference from ML</td>
+                <td>Focuses on random components, adjusting for downward bias in variance estimation, unlike Maximum Likelihood which estimates all parameters simultaneously.</td>
+            </tr>
+            <tr>
+                <td>How it Works</td>
+                <td>First fits a linear model to remove fixed effects, then estimates variance components of random effects from the residuals.</td>
+            </tr>
+            <tr>
+                <td>Application in Mixed Models</td>
+                <td>Provides more accurate and unbiased estimates of variance components for random effects, especially in small samples or with many fixed effects.</td>
+            </tr>
+            <tr>
+                <td>Usage in <code>lmer</code></td>
+                <td>Often the default method in R's <code>lmer</code> function, chosen for unbiased estimation of variance and covariance parameters.</td>
+            </tr>
+            <tr>
+                <td>Limitations</td>
+                <td>Not suitable for comparing models with different fixed effects; full maximum likelihood estimation is preferred for such comparisons.</td>
+            </tr>
+            <tr>
+                <td>Ideal Scenarios</td>
+                <td>Useful when primary interest is in random effects, such as in longitudinal data analysis, multi-level modeling, and repeated measures analysis.</td>
+            </tr>
+        </table>
+        <h2>Degenerate Models in Mixed-Effects Modeling</h2>
+        <ul class="list">
+            <li>
+                In mixed-effects modeling, a degenerate model is one where the estimates of variance components, particularly for the random effects, are zero. This implies that the random effects do not contribute significantly to the variability in the data and can be excluded from the model. Essentially, a degenerate model reduces to a simpler linear model without random effects.
+            </li>
+            <li>
+                The identification of a degenerate model is crucial. It highlights situations where the complexity added by random effects does not provide a significant benefit in explaining the data. For example, an estimate of zero for a random effect suggests that the between-group variability is not sufficient to justify the inclusion of these effects in the model.
+            </li>
+            <li>
+                Degenerate models are not uncommon in practice and should be considered during the modeling process. Even if the final fitted model is not degenerate, the possibility of such a model must be entertained during parameter estimation and numerical optimization.
+            </li>
+            <li>
+                The use of Restricted Maximum Likelihood (REML) in mixed models is particularly relevant in this context. REML estimates of variance components in mixed models are a generalization of the variance estimate used in linear models. This means that in cases where the mixed model becomes degenerate (i.e., when random effects are effectively zero), the REML estimates of variance components coincide with those from a linear model.
+            </li>
+            <li>
+                Understanding and identifying degenerate models is essential as it aids in model simplification and interpretation. It ensures that the complexity of a mixed-effects model is justified by the data and contributes to a better understanding of the underlying structure in the data.
+            </li>
+        </ul>
+        <h2>Balanced Design</h2>
+        <p class="para">In general, balance is a desirable but precarious property of a data set. We may be
+            able to impose balance in a designed experiment but we typically cannot expect that data
+            from an observation study will be balanced.
+        </p>
+        <table border="1">
+            <tr>
+                <th>Aspect</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td>Balance in Data Sets</td>
+                <td>While balance is ideal in data sets, it's often a precarious and elusive goal. In controlled experiments, achieving balance is more feasible, but in observational studies, expecting balance is unrealistic.</td>
+            </tr>
+            <tr>
+                <td>Real Data Analysis</td>
+                <td>Practical experience with real-world data quickly reveals that even well-designed experiments can deviate from expected balance, aligning with the principle of 'Murphy's Law' - if something can go wrong, it probably will.</td>
+            </tr>
+            <tr>
+                <td>Handling Imperfections</td>
+                <td>Statisticians anticipate and account for the possibility of missing data. For instance, in a scenario where each of six samples is applied to 24 plates, an issue with even one sample on a single plate can disrupt the balance, leading to an unbalanced dataset.</td>
+            </tr>
+        </table>
+        
+        
+                  
+    </div>
+</body>
+</html>

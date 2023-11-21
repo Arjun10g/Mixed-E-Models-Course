@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inder&family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&family=Newsreader:opsz,wght@6..72,800&family=Poppins:wght@300;500;700;900&family=Quicksand&family=Sofia&family=Ubuntu&family=Wix+Madefor+Text:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background: linear-gradient(to right, #000012, black);
+    color: white;
+    font-family: 'Sofia', sans-serif;
+}
+
+.nav-tabs{
+    display: flex;
+    justify-content: center;
+}
+
+.nav-tabs li{
+    flex-basis: 50%;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.tab-content{
+    font-size: 2rem;
+    letter-spacing: 2px;
+    word-spacing: 4px;
+    text-align: justify;
+    line-height: 200%;
+}
+
+.tab-content h2{
+    text-align: center;
+}
+
+.tab-content button{
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 3rem;
+    margin: 0 auto;
+}
+
+.col-sm-8 pre{
+    margin: 20px 0;
+    background: antiquewhite;
+}
+
+.col-sm-4{
+    color:black;
+}
+
+@media screen and (max-width: 768px){
+    body{
+        font-family: sans-serif;
+    }
+    .tab-content{
+        font-family: 'Times New Roman', Times, serif;
+        letter-spacing: 1px;
+        word-spacing: 2px;
+    }
+}

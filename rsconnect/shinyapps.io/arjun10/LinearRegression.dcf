@@ -1,0 +1,13 @@
+name: LinearRegression
+title: LinearRegression
+username: arjun10
+account: arjun10
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10507425
+bundleId: 7921719
+url: https://arjun10.shinyapps.io/LinearRegression/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: anim1.gif|back.jpeg|image.jpeg|image2.jpeg|image3.jpeg|image5.jpeg|image7.jpeg|image8.jpeg|img6.jpeg|index.css|index.html|index.js
