@@ -2300,7 +2300,828 @@ sample a b c d e f g h i j k l m n o p q r s t u v w x
     </div>
 
     <div class="content4">
-        <h1 class="head">Page is currently Hidden</h1>
+        <h1 class="head">Longitudnal Modelling and other GLM approaches</h1>
+        <ol class = "toc">
+            <li><a href="#long1">Introduction to Longitudnal Modelling</a></li>
+            <li><a href="#long2">Fitting a Longitudnal Model in R</a></li>
+            <li><a href="#long3">Uncorrelated Slope/Intercept</a></li>
+            <li><a href="#long4">Non-Linear Longitudnal Models</a></li>
+            <li><a href="#long5">Growth Curve Models</a></li>
+            <li><a href="#long6">Three Level Models</a></li>
+            <li><a href="#long7">GLM Extensions</a></li>
+
+        </ol>
+        <h2 id="long1">Introduction to Longitudnal Modelling</h2>
+        <p class = "para">
+        Longitudinal data analysis involves observing and analyzing repeated measurements taken from the same subject over time. The primary objective is to understand and characterize the trends that occur within subjects (intra-individual) and between subjects (inter-individual). Typically, these datasets include:
+        </p>
+
+        <ol class = "list">
+        <li><strong>Response Variable:</strong> The primary outcome or variable of interest measured repeatedly over time, such as blood pressure, test scores, or any measurable quantity.</li>
+        <li><strong>Time Covariate:</strong> The time at which each measurement was taken. This could be discrete (e.g., time points such as months or years) or continuous.</li>
+        <li><strong>Subject Indicator:</strong> An identifier that distinguishes each subject or experimental unit in the study. This allows tracking and associating measurements with specific individuals.</li>
+        </ol>
+
+        <p class = "para">
+        Additional covariates may also be recorded:
+        </p>
+
+        <ul class = 'list'>
+        <li><strong>Other Covariates:</strong> These could include factors like gender, age, treatment group (e.g., control vs. experimental), medication usage, or any other relevant variables that might influence the response variable.</li>
+        </ul>
+
+        <p class = "para">
+        The analysis of longitudinal data involves various statistical techniques aimed at understanding the patterns of change over time within individuals and comparing these patterns between different groups or conditions. Key objectives include:
+        </p>
+
+        <ul class = "list">
+        <li><strong>Modeling Time Trends:</strong> Examining how the response variable changes over time within each subject. This could involve fitting models (e.g., linear, non-linear, mixed-effects models) to understand the trajectory of change.</li>
+        <li><strong>Between-Subject Variability:</strong> Assessing differences between individuals or groups in their response patterns. Understanding why individuals vary in their responses over time.</li>
+        <li><strong>Covariate Effects:</strong> Investigating how other recorded covariates influence the within-subject and between-subject trends. For instance, assessing whether being in a treatment group affects the trajectory of change over time compared to a control group.</li>
+        </ul>
+
+        <p class = "para">
+        Overall, longitudinal data analysis allows researchers to capture individual-level changes over time, understand how these changes vary between individuals, and explore factors that might influence these patterns. This type of analysis is crucial in various fields like medicine, psychology, economics, and more where understanding changes over time is essential.
+        </p>
+        <pre class="rcode">
+            dat &lt;- lme4::sleepstudy
+            dat %>% ggplot(aes(Days, Reaction)) +
+            geom_smooth(method = 'lm', se = F, aes(group = Subject), col = 'black', linewidth = 0.5) +
+            geom_smooth(method = 'lm', aes(group = 1), size = 3) +
+            papaja::theme_apa()
+        </pre>
+        <div class="plot">
+            <img src="long.jpeg" alt="">
+        </div>
+        <p class="para"> This type of visualization provided helps enhance our ability to discern patterns in both the slope (the typical change in reaction time per day of sleep deprivation for that particular subject) and the intercept (the average response time for the subject when on their usual sleep pattern).</p>
+        <p class="para"> For example, a question of interest to the experimenters is whether a subject’s rate of change in reaction time is related to the subject’s initial reaction time.</p>
+        <p class="para">There is little evidence in the above plot of such a systematic relationship between the subject’s initial reaction time and their rate of change in reaction time per day of sleep deprivation. We do see that for most subjects, the reaction time increases, more- or-less linearly, with days of sleep deprivation. However, there is considerable variation both in the initial reaction time and in the daily rate of increase in reaction time. We can also see that these data are balanced, both with respect to the number of observations on each subject, and with respect to the times at which these observations were taken.</p>
+        <pre class="rcode">
+            > xtabs(~Subject + Days, data = dat)
+                Days
+            Subject 0 1 2 3 4 5 6 7 8 9
+                308 1 1 1 1 1 1 1 1 1 1
+                309 1 1 1 1 1 1 1 1 1 1
+                310 1 1 1 1 1 1 1 1 1 1
+                330 1 1 1 1 1 1 1 1 1 1
+                331 1 1 1 1 1 1 1 1 1 1
+                332 1 1 1 1 1 1 1 1 1 1
+                333 1 1 1 1 1 1 1 1 1 1
+                334 1 1 1 1 1 1 1 1 1 1
+                335 1 1 1 1 1 1 1 1 1 1
+                337 1 1 1 1 1 1 1 1 1 1
+                349 1 1 1 1 1 1 1 1 1 1
+                350 1 1 1 1 1 1 1 1 1 1
+                351 1 1 1 1 1 1 1 1 1 1
+                352 1 1 1 1 1 1 1 1 1 1
+                369 1 1 1 1 1 1 1 1 1 1
+                370 1 1 1 1 1 1 1 1 1 1
+                371 1 1 1 1 1 1 1 1 1 1
+                372 1 1 1 1 1 1 1 1 1 1
+        </pre>
+        <p class="para">The data are balanced in the sense that each subject has the same number of observations, and each subject has an observation at each time point. This is not always the case with longitudinal data.</p>
+        <h2 id="long2">Fitting a longitudnal model in R</h2>
+        <p class="para">
+            After initially examining the data graphically, we proceeded by employing a mixed-effects model incorporating two fixed-effects parameters. These fixed effects pertain to the overall population's intercept and slope for the linear time trend. Additionally, the model integrates two random effects for each subject, capturing the deviations specific to a subject's intercept and slope from the general population values.
+        </p>
+        <pre class="rcode">> summary(model)
+            Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+            lmerModLmerTest]
+            Formula: Reaction ~ 1 + Days + (1 + Days | Subject)
+               Data: dat
+            
+            REML criterion at convergence: 1743.6
+            
+            Scaled residuals: 
+                Min      1Q  Median      3Q     Max 
+            -3.9536 -0.4634  0.0231  0.4634  5.1793 
+            
+            Random effects:
+             Groups   Name        Variance Std.Dev. Corr
+             Subject  (Intercept) 612.10   24.741       
+                      Days         35.07    5.922   0.07
+             Residual             654.94   25.592       
+            Number of obs: 180, groups:  Subject, 18
+            
+            Fixed effects:
+                        Estimate Std. Error      df t value   Pr(>|t|)    
+            (Intercept)  251.405      6.825  17.000  36.838    &lt; 2e-16 ***
+            Days          10.467      1.546  17.000   6.771 0.00000326 ***
+            ---
+            Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+            
+            Correlation of Fixed Effects:
+                 (Intr)
+            Days -0.138
+            > summary(model, ddf = 'Kenward-Roger')
+            Linear mixed model fit by REML. t-tests use Kenward-Roger's method [
+            lmerModLmerTest]
+            Formula: Reaction ~ 1 + Days + (1 + Days | Subject)
+               Data: dat
+            
+            REML criterion at convergence: 1743.6
+            
+            Scaled residuals: 
+                Min      1Q  Median      3Q     Max 
+            -3.9536 -0.4634  0.0231  0.4634  5.1793 
+            
+            Random effects:
+             Groups   Name        Variance Std.Dev. Corr
+             Subject  (Intercept) 612.10   24.741       
+                      Days         35.07    5.922   0.07
+             Residual             654.94   25.592       
+            Number of obs: 180, groups:  Subject, 18
+            
+            Fixed effects:
+                        Estimate Std. Error      df t value   Pr(>|t|)    
+            (Intercept)  251.405      6.825  17.000  36.838    &lt; 2e-16 ***
+            Days          10.467      1.546  17.000   6.771 0.00000326 ***
+            ---
+            Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+            
+            Correlation of Fixed Effects:
+                 (Intr)
+            Days -0.138</pre>
+
+            <pre class="rcode">
+                > confint(model)
+                Computing profile confidence intervals ...
+                                2.5 %     97.5 %
+                .sig01       14.3814785  37.715990
+                .sig02       -0.4815007   0.684986
+                .sig03        3.8011641   8.753386
+                .sigma       22.8982669  28.857997
+                (Intercept) 237.6806955 265.129515
+                Days          7.3586533  13.575919
+            </pre>
+
+            <pre class="rcode">
+                > confint(model,oldNames = F)
+                Computing profile confidence intervals ...
+                                                2.5 %     97.5 %
+                sd_(Intercept)|Subject        14.3814785  37.715990
+                cor_Days.(Intercept)|Subject  -0.4815007   0.684986
+                sd_Days|Subject                3.8011641   8.753386
+                sigma                         22.8982669  28.857997
+                (Intercept)                  237.6806955 265.129515
+                Days                           7.3586533  13.575919
+            </pre>
+            <table>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Estimate</th>
+                  <th>Description</th>
+                </tr>
+                <tr>
+                  <td>Fixed Effects Parameters (βb)</td>
+                  <td>(251.41, 10.467)T</td>
+                  <td>
+                    Represents the typical initial reaction time in the population and the increase in reaction time per day of sleep deprivation.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Subject-to-Subject Variation in Intercept</td>
+                  <td>About 25 ms (Standard Deviation)</td>
+                  <td>
+                    Implies a 95% confidence interval of approximately ±13 ms around the estimated population intercept of 250 ms.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Subject-to-Subject Variation in Slope</td>
+                  <td>About 5.7 ms/day (Standard Deviation)</td>
+                  <td>
+                    Implies a range of possible slopes between 3.80 to 8.75, based on observed variation.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Residual Standard Deviation</td>
+                  <td>About 25 ms</td>
+                  <td>
+                    Indicates an expected scatter around fitted lines (similar to RSE)
+                  </td>
+                </tr>
+                <tr>
+                  <td>Within-Subject Correlation</td>
+                  <td>0.081</td>
+                  <td>
+                    Suggests a very low correlation between the random effects for intercept and slope, indicating little evidence of a systematic relationship between these quantities.
+                  </td>
+                </tr>
+              </table>
+
+              <div class="plot">
+                <img src="long2.jpeg" alt="">
+              </div>
+              
+              <p class = "para">
+                These estimates provide insights into the variability within subjects and across the population, helping to understand the expected range of reactions to sleep deprivation and the scatter around the fitted lines for each subject.
+              </p>
+
+            <p class="para">Next we probably want to answer some questions, is there enough random variability in the model to warrant the inclusion of random intercepts and slopes?</p>
+            <pre class="rcode">
+                random_eff &lt;- ranef(model)
+                lattice::dotplot(random_eff)
+            </pre>
+            <div class="plot">
+                <img src="long1.jpeg" alt="">
+            </div>
+
+            <h2 id="long3">Uncorrelated Slope/Intercept</h2>
+            <p class="para">In the context of a model with uncorrelated random effects, the goal is to incorporate both a simple scalar random effect for 'Subject' and a random effect for the slope concerning 'Days', also indexed by 'Subject'. We can achieve this by - </p>
+            <ol class="list">
+                <li><strong>Simple Scalar Random Effect for 'Subject':</strong> This is expressed as <code>(1 | Subject)</code>, indicating a basic scalar term that captures individual variations among subjects.</li>
+  
+                <li><strong>Random Effect for the Slope with respect to 'Days' Indexed by 'Subject':</strong> Initially, it might seem that the appropriate model formula would be <code>Reaction ~ 1 + Days + (1 | Subject) + (Days | Subject)</code>. However, because the intercept is implicit in linear models, the second random-effects term <code>(Days | Subject)</code>—by itself—produces correlated, vector-valued random effects due to the implicit intercept.</li>
+                
+                <li>To resolve this and create an uncorrelated model with distinct slopes, the implicit intercept needs to be suppressed in the second random-effects term. This is achieved by expressing it as <code>(0 + Days | Subject)</code> or <code>(Days - 1 | Subject)</code>. Both expressions effectively indicate a model without an intercept for 'Days' by 'Subject', resulting in uncorrelated, scalar random effects for the slope. Using the first form, the model's structure becomes clearer.</li>
+              
+            </ol>
+
+            <pre class="rcode">
+                > model2 &lt;- lmerTest::lmer(Reaction ~ 1 + Days + + (1 | Subject) + (0 + Days|Subject),dat, REML=T)
+                > summary(model2, ddf = 'Kenward-Roger')
+                Linear mixed model fit by REML. t-tests use Kenward-Roger's method [
+                lmerModLmerTest]
+                Formula: Reaction ~ 1 + Days + +(1 | Subject) + (0 + Days | Subject)
+                Data: dat
+
+                REML criterion at convergence: 1743.7
+
+                Scaled residuals: 
+                    Min      1Q  Median      3Q     Max 
+                -3.9626 -0.4625  0.0204  0.4653  5.1860 
+
+                Random effects:
+                Groups    Name        Variance Std.Dev.
+                Subject   (Intercept) 627.57   25.051  
+                Subject.1 Days         35.86    5.988  
+                Residual              653.58   25.565  
+                Number of obs: 180, groups:  Subject, 18
+
+                Fixed effects:
+                            Estimate Std. Error      df t value   Pr(>|t|)    
+                (Intercept)  251.405      6.885  18.187  36.513    &lt; 2e-16 ***
+                Days          10.467      1.560  18.187   6.712 0.00000257 ***
+                ---
+                Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+                Correlation of Fixed Effects:
+                    (Intr)
+                Days -0.184
+            </pre>
+            
+            <p class="para">This model is similar to the first one is most ways including the random effects generated except, there is no correlation generated between the slope and the intercept.</p>
+
+            <h2>Comparing the two Models</h2>
+            <pre class="rcode">
+                > anova(model,model2)
+                refitting model(s) with ML (instead of REML)
+                Data: dat
+                Models:
+                model2: Reaction ~ 1 + Days + +(1 | Subject) + (0 + Days | Subject)
+                model: Reaction ~ 1 + Days + (1 + Days | Subject)
+                       npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)
+                model2    5 1762.0 1778.0 -876.00   1752.0                     
+                model     6 1763.9 1783.1 -875.97   1751.9 0.0639  1     0.8004
+            </pre>
+            <p class="para">
+                The small value of the χ2 statistic (0.0639), corresponding to a p-value of 0.80, suggests that the additional parameter in model1 compared to model2 doesn't significantly improve the fit. Following the principle of parsimony, we favor the reduced model, model2. This aligns with the visual impression aswell, indicating no strong relationship between a subject’s initial reaction time and the impact of sleep deprivation on reaction time.
+                This likelihood ratio test isn't testing a parameter at the boundary of the parameter space (a correlation of zero), ensuring the adequacy of the resulting p-value. Note: Profiling can be extended to correlation parameters, but that step hasn't been taken yet.
+            </p>
+
+            <h2 id="long4">Non-Linear Longitudnal Models</h2>
+            <p class="para">
+                The model we have been using so far is a linear model, but we can also fit non-linear models to the data. For example, we can fit a quadratic model to the data by including a quadratic term for 'Days' in the model formula. This is achieved by adding the term <code>Days^3</code> to the model formula. The resulting model is:
+            </p>
+
+            <div class="plot">
+                <img src="long4.jpeg" alt="">
+            </div>
+
+            <pre class="rcode">
+                > model3 &lt;- lmerTest::lmer(Reaction ~  poly(Days,3) + (1 | Subject) + (0 + Days|Subject),dat, REML=T)
+                > model3 %>% summary(ddf = 'Kenward-Roger')
+                Linear mixed model fit by REML. t-tests use Kenward-Roger's method [
+                lmerModLmerTest]
+                Formula: Reaction ~ poly(Days, 3) + (1 | Subject) + (0 + Days | Subject)
+                   Data: dat
+                
+                REML criterion at convergence: 1718.1
+                
+                Scaled residuals: 
+                    Min      1Q  Median      3Q     Max 
+                -3.9820 -0.4477  0.0353  0.5029  5.2498 
+                
+                Random effects:
+                 Groups    Name        Variance Std.Dev.
+                 Subject   (Intercept) 627.20   25.044  
+                 Subject.1 Days         35.85    5.987  
+                 Residual              655.11   25.595  
+                Number of obs: 180, groups:  Subject, 18
+                
+                Fixed effects:
+                               Estimate Std. Error      df t value   Pr(>|t|)    
+                (Intercept)     298.508      8.878  24.947  33.625    &lt; 2e-16 ***
+                poly(Days, 3)1  403.364     60.105  18.193   6.711 0.00000257 ***
+                poly(Days, 3)2   32.856     25.595 143.123   1.284      0.201    
+                poly(Days, 3)3   -2.991     25.595 143.123  -0.117      0.907    
+                ---
+                Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+                
+                Correlation of Fixed Effects:
+                            (Intr) p(D,3)1 p(D,3)2
+                ply(Dys,3)1 0.647                 
+                ply(Dys,3)2 0.000  0.000          
+                ply(Dys,3)3 0.000  0.000   0.000 
+            </pre>
+
+            <h2>Comparing the Model</h2>
+            <pre class="rcode">
+                > anova(model3,model2)
+                refitting model(s) with ML (instead of REML)
+                Data: dat
+                Models:
+                model2: Reaction ~ 1 + Days + +(1 | Subject) + (0 + Days | Subject)
+                model3: Reaction ~ poly(Days, 3) + (1 | Subject) + (0 + Days | Subject)
+                    npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)
+                model2    5 1762.0 1778.0 -876.00   1752.0                     
+                model3    7 1764.3 1786.7 -875.16   1750.3 1.6761  2     0.4325
+            </pre>
+            <p class="para">
+                The p-value of 0.43 indicates that the additional parameters in model3 compared to model2 don't significantly improve the fit. Following the principle of parsimony, we favor the reduced model, model2.
+            </p>
+
+            <h2 id="long5">Growth Curve Models</h2>
+            <p class="para">
+                Growth curve models are a class of models for longitudinal data in which the response variable is continuous and follows a trajectory over time. The term growth curve is used because the response variable is often a measure of growth over time, such as height, weight, or other physiological measures. However, the term is also used more generally to refer to any trajectory over time, such as the reaction time example we have been using. So far, we have been analyzing such data within the mixed-effects modeling framework, which is a special case of growth curve models. In this section, we will explore growth curve models in more detail, using the SEM framework.
+            </p>
+
+            <table>
+                <tr>
+                  <th>Aspect</th>
+                  <th>Growth Curve Models in SEM</th>
+                  <th>Mixed-Effects Modeling</th>
+                </tr>
+                <tr>
+                  <td>Modeling Framework</td>
+                  <td>Structural Equation Modeling (SEM)</td>
+                  <td>Multilevel or Hierarchical Modeling</td>
+                </tr>
+                <tr>
+                  <td>Usage</td>
+                  <td>Ideal for examining relationships among latent constructs and observed variables over time</td>
+                  <td>Well-suited for analyzing nested or longitudinal data, capturing individual-level variation over time</td>
+                </tr>
+                <tr>
+                  <td>Estimation Approach</td>
+                  <td>Path analysis, latent growth curve modeling, with focus on latent variables and their relationships</td>
+                  <td>Employs fixed and random effects to model within- and between-subject variability</td>
+                </tr>
+                <tr>
+                  <td>Model Complexity</td>
+                  <td>Allows for testing complex relationships among latent variables and observed measures. Can further correlate the residuals.</td>
+                  <td>Can accommodate various random effects structures, allowing flexibility in modeling individual trajectories. Harder to correlate residuals.</td>
+                </tr>
+                <tr>
+                  <td>Handling Missing Data</td>
+                  <td>SEM frameworks provide methods for handling missing data, but missing data can pose challenges</td>
+                  <td>Can handle missing data efficiently using techniques like maximum likelihood estimation</td>
+                </tr>
+              </table>
+
+              <p class="para">Things to consider before fitting a Growth Curve Model</p>
+              <ol class = "list">
+                <li>
+                  <strong>Understanding the Average Trajectory:</strong>
+                  <p>
+                    <strong>a.</strong> What's the starting point or initial level of the variable (i.e., mean)?
+                    <br>
+                    <strong>b.</strong> Does the variable change over time?
+                    <br>
+                    <strong>c.</strong> If so, what's the nature of this change (e.g., linear, quadratic)?
+                  </p>
+                </li>
+                <li>
+                  <strong>Evaluating Variability:</strong>
+                  <p>
+                    Is the average trajectory enough, or is there substantial variability between observations to justify distinct trajectories?
+                    In other words, should the latent intercept or latent slope include a variance term, or can it be constrained to 0.0? These variances are referred to as random effects.
+                  </p>
+                </li>
+                <li>
+                  <strong>Identifying Predictors for Distinct Trajectories:</strong>
+                  <p>
+                    If distinct trajectories are warranted (i.e., variability in the latent intercept or slope), are there additional variables that can predict them?
+                    In other words, do other variables need inclusion in the LCM to explain the variability in latent intercept or slope?
+                  </p>
+                </li>
+              </ol>
+
+              <h2>Lavaan Syntax (SEM)</h2>
+              <table>
+                <tr>
+                  <th>Formula Type</th>
+                  <th>Operator</th>
+                  <th>Explanation</th>
+                </tr>
+                <tr>
+                  <td>Regression</td>
+                  <td>~</td>
+                  <td>Regression formula structure; the response variable regressed on predictor variables.</td>
+                </tr>
+                <tr>
+                  <td>Correlation</td>
+                  <td>~~</td>
+                  <td>Indicates a correlation relationship between variables.</td>
+                </tr>
+                <tr>
+                  <td>Intercept</td>
+                  <td>~ 1</td>
+                  <td>Specifies that a variable estimates the intercept in a model.</td>
+                </tr>
+                <tr>
+                  <td>Latent Variable Definition</td>
+                  <td>=~</td>
+                  <td>Denotes that a latent variable is measured by observed indicators.</td>
+                </tr>
+                <tr>
+                  <td>Create a Composite</td>
+                  <td>&lt;~</td>
+                  <td>Represents that a composite variable is caused by other variables.</td>
+                </tr>
+              </table>
+
+              <h2>Random Intercept Model - Model for a mean latent intercept and constrained residual variances.</h2>
+              <pre class="rcode">
+                Model1 &lt;- '
+                # intercept
+                i =~ 1*Time1 + 1*Time2 + 1*Time3 + 1*Time4 
+                i~~0*i
+                # residual variances
+                Time1~~r*Time1
+                Time2~~r*Time2
+                Time3~~r*Time3
+                Time4~~r*Time4
+'
+              </pre>
+
+                <h2>Random Intercept Model - Model for a mean latent intercept that is allowed to vary, and constrained residual variances.</h2>
+                <pre class="rcode">
+                    Model2 &lt;- '
+                    # intercept
+                    i =~ 1*Time1 + 1*Time2 + 1*Time3 + 1*Time4 
+                    i~~0*i
+                    # residual variances
+                    Time1~~r*Time1
+                    Time2~~r*Time2
+                    Time3~~r*Time3
+                    Time4~~r*Time4
+                    '
+                </pre>
+
+                <h2>Random Slope Model - Model with a mean latent intercept that is allowed to vary, mean latent slope, and constrained residual variances.</h2>
+
+                <pre class="rcode">
+                    model3 &lt;- '
+                    # intercept
+                    i =~ 1*Time1 + 1*Time2 + 1*Time3 + 1*Time4
+                    # slope
+                    s =~ 0*Time1 + 1*Time2 + 2*Time3 + 3*Time4
+                    s~0*1
+                    s~~0*i
+                    # residual variances
+                    Time1~~r*Time1
+                    Time2~~r*Time2
+                    Time3~~r*Time3
+                    Time4~~r*Time4
+                    '
+                </pre>
+
+                <h2>Random Slope Model - Model for a mean latent intercept that is allowed to vary, mean latent slope that is allowed to vary, and constrained residual variances.</h2>
+                <pre class="rcode">
+                    model4 &lt;- '
+                    # intercept
+                    i =~ 1*Time1 + 1*Time2 + 1*Time3 + 1*Time4
+                    # slope
+                    s =~ 0*Time1 + 1*Time2 + 2*Time3 + 3*Time4
+                    # residual variances
+                    Time1~~r*Time1
+                    Time2~~r*Time2
+                    Time3~~r*Time3
+                    Time4~~r*Time4
+                    '
+                </pre>
+
+                <h2>Unconstrained Model</h2>
+                <pre class="rcode">
+                    model5 &lt;- '
+                    # intercept
+                    i =~ 1*Time1 + 1*Time2 + 1*Time3 + 1*Time4
+                    # slope
+                    s =~ 0*Time1 + 1*Time2 + 2*Time3 + 3*Time4
+                    '
+                </pre>
+
+                <table>
+                    <tr>
+                      <th>Model</th>
+                      <th>Features</th>
+                      <th>Interpretation</th>
+                      <th>Residual Variance</th>
+                      <th>Outcome Variability Explanation</th>
+                    </tr>
+                    <tr>
+                      <td>Model 1</td>
+                      <td>Single latent intercept, constant over time</td>
+                      <td>Uniform crime rate across communities and time periods</td>
+                      <td>0.637</td>
+                      <td>36.327% explained variability</td>
+                    </tr>
+                    <tr>
+                      <td>Model 2</td>
+                      <td>Latent intercept variability allowed</td>
+                      <td>Assesses between-community variability</td>
+                      <td>0.157</td>
+                      <td>75.4% explained variability, between-community differences</td>
+                    </tr>
+                    <tr>
+                      <td>Model 3</td>
+                      <td>Latent slope variability allowed</td>
+                      <td>Random changes beyond intercept variability</td>
+                      <td>0.11</td>
+                      <td>Increased model precision, reduced residual variance</td>
+                    </tr>
+                    <tr>
+                      <td>Model 4</td>
+                      <td>Systematic change over time, variability in change</td>
+                      <td>Systematic change and variation between communities</td>
+                      <td>0.106</td>
+                      <td>Higher crime growth for higher initial crime rates</td>
+                    </tr>
+                    <tr>
+                      <td>Model 5</td>
+                      <td>Residual variances vary across time periods</td>
+                      <td>Varied unexplained variance over time</td>
+                      <td>0.085 - 0.138</td>
+                      <td>Model captures varying outcome variance across time</td>
+                    </tr>
+                  </table>
+
+                  <h2>Including Covariates</h2>
+                  <pre class="rcode">
+                    model6 &lt;- '
+                    # intercept
+                    i =~ 1*Time1 + 1*Time2 + 1*Time3 + 1*Time4
+                    # slope
+                    s =~ 0*Time1 + 1*Time2 + 2*Time3 + 3*Time4
+                    # regression
+                    i + s ~ State '
+                    </pre>
+                    
+                    <pre class="rcode">
+                    model7 &lt;- '
+                    # intercept
+                    i =~ 1*Time1 + 1*Time2 + 1*Time3 + 1*Time4
+                    # slope
+                    s =~ 0*Time1 + 1*Time2 + 2*Time3 + 3*Time4
+                    # regression
+                    s + i ~ State + Poverty
+                    '
+                    </pre>
+                    
+                    <pre class="rcode">
+                    model8 &lt;- '
+                    # intercept
+                    i =~ 1*Time1 + 1*Time2 + 1*Time3 + 1*Time4
+                    # slope
+                    s =~ 0*Time1 + 1*Time2 + 2*Time3 + 3*Time4
+                    # regression
+                    s + i ~ State + Poverty + StPov
+                    '
+                    </pre>
+                    <table>
+                        <tr>
+                          <th>Aspect</th>
+                          <th>Time-Invariant Variables</th>
+                          <th>Time-Varying Variables</th>
+                        </tr>
+                        <tr>
+                          <td>Definition</td>
+                          <td>Values remain stable across all data collection time periods</td>
+                          <td>Values can change across different time points</td>
+                        </tr>
+                        <tr>
+                          <td>Examples</td>
+                          <td>Race, Sex, Cognitive Ability</td>
+                          <td>Attitudes, Weight, Age</td>
+                        </tr>
+                        <tr>
+                          <td>Characteristics</td>
+                          <td>Constant, Fixed</td>
+                          <td>Dynamic, Changing</td>
+                        </tr>
+                        <tr>
+                          <td>Use</td>
+                          <td>Explaining stable individual differences</td>
+                          <td>Explaining changes or fluctuations over time</td>
+                        </tr>
+                      </table>
+
+                      <h2 id="long6">Three Level Models</h2>
+                      <p class="para">Multilevel modeling isn't limited to just two-level structures but can expand to accommodate more complex hierarchies. In scenarios involving three or more levels, data might exhibit a nested structure, like students nested within classes, nested within schools, and potentially further nested within districts. Considerations can involve a student-level outcome influenced by variables at the student, class, school, or district levels. Longitudinal designs can also embody three-level structures, such as observing student performance over time within classes within schools. Another instance might involve psychotherapy clients observed across sessions, nested within clients, and further nested within therapists.</p>
+                      <p class="para">For a three-level model in the context of nurses nested within hospital wards (Level 2) nested within hospitals (Level 3). We examine the relationship between experience and stress among nurses. Syntax to estimate this model is  - </p>
+                      <pre class="rcode">> mod.rs &lt;- lmer(stress ~ expCw + (expCw|hospital/wardid), data=nurses)</pre>       
+                      <ul class="list">
+                        <li>Here expCw is the group-mean centered experience predictor.</li>
+                        <li>The random effects structure is specified as (expCw|hospital/wardid), indicating that the intercept and slope of expCw vary across wards within hospitals.</li>
+                        <li>Because the intercept and slope are nested within wards, the wardid variable is included in the random effects structure.</li>
+                      </ul>          
+                      <p class="para">An equivalent way to express the model is as follows - </p>   
+                      <pre class="rcode">> mod.rs &lt;- lmer(stress ~ expCw + (expCw|hospital) + (expCw|hospital:wardid), data=nurses)</pre>
+                      <ul class="list">
+                        <li>Here, the intercept and slope of expCw vary across hospitals and across wards within hospitals.</li>
+                        <li>The wardid variable is included in the random effects structure to indicate that the intercept and slope are nested within wards.</li>
+                    
+                      </ul>
+
+                      <pre class="rcode">
+                        > summary(mod.rs)
+                        Random effects:
+                        Groups Name Variance Std.Dev. Corr
+                        wardid:hospital (Intercept) 4.906e-01 0.700406
+                        expCw 6.221e-05 0.007887 0.03
+                        hospital (Intercept) 1.748e-01 0.418116
+                        expCw 2.194e-05 0.004684 1.00
+                        Residual 2.781e-01 0.527336
+                        Number of obs: 1000, groups: wardid:hospital, 100; hospital, 25
+                        Fixed effects:
+                        Estimate Std. Error df t value Pr(>|t|)
+                        (Intercept) 5.001069 0.110364 24.072512 45.314 &lt;2e-16 ***
+                      </pre>
+
+                      <ol class="list">
+                        <li>Here, we have random components associated with within ward slopes.</li>
+                        <li>We also have random components associated with within hospital slopes.</li>
+                        <li>We basically estimated a random slope model for both levels of nesting structures.</li>
+                      </ol>
+
+                        <h2 id="long7">GLM Extensions</h2>
+                        <p class="para">Multilevel logistic regression, a facet of generalized linear mixed modeling, builds upon the principles of logistic regression, which is part of the broader concept of generalized linear modeling. Logistic regression addresses the limitations of applying linear regression to binary outcomes by using a non-linear function to model the probability of a binary dependent variable (e.g., probability of '1' versus '0'). The linear model in ordinary regression may yield predictions beyond the 0 to 1 range required for probabilities. However, logistic regression employs a logit model, ensuring predictions remain within the probability range, effectively capturing the relationship between predictor variables and the binary outcome. In essence, multilevel logistic regression extends this approach to hierarchical or nested data structures, incorporating varying effects at different levels while modeling binary outcomes.</p>
+
+                        <p class="para">In the context of multilevel logistic regression, the logit model is expressed as - </p>
+
+                        <p class="para">\(\text{P}(Y=1|X) = \frac{1}{1 + e^{-(\beta_0 + \beta_1X_1 + \beta_2X_2 + \dots + \beta_pX_p)}}\)</p>
+
+                        <p class="para">Where \(\text{P}(Y=1|X)\) is the probability of the binary outcome (e.g., '1' versus '0') given the predictor variables \(X_1, X_2, \dots, X_p\). The \(\beta\) coefficients represent the log odds of the binary outcome, and the logit function ensures that the predicted probabilities remain within the 0 to 1 range.</p>
+
+                        <h2>Brief Seguway into Probability</h2>
+
+                        <p class="para">Probability and odds are different ways to express the likelihood of an event occurring, and they are mathematically connected.</p>
+
+                        <ul class="list">
+                        <li>
+                            <strong>Probability:</strong>
+                            <ul>
+                            <li>Probability is the chance that an event will occur, usually expressed as a value between 0 and 1 (0% to 100%).</li>
+                            <li>It's the ratio of the number of favorable outcomes to the total number of possible outcomes.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Odds:</strong>
+                            <ul>
+                            <li>Odds represent the ratio of the probability of success to the probability of failure.</li>
+                            <li>It's calculated as the probability of the event occurring divided by the probability of it not occurring.</li>
+                            <li>If the probability of an event is \(P(E)\), the odds of that event are \(O(E) = \frac{P(E)}{1 - P(E)}\).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Relationship between Probability and Odds:</strong>
+                            <ul>
+                            <li>The relationship between probability and odds is captured by the equation: \(O(E) = \frac{P(E)}{1 - P(E)}\).</li>
+                            <li>If \(P(E)\) is close to 0, the odds will be close to 0.</li>
+                            <li>If \(P(E)\) is close to 1, the odds will be very large.</li>
+                            </ul>
+                        </li>
+                        </ul>
+
+                        <p class="para">
+                        For instance:
+                        <ul class = "list">
+                            <li>If the probability of an event is 0.25, the odds of that event are \(O(E) = \frac{0.25}{1 - 0.25} = \frac{0.25}{0.75} = \frac{1}{3}\).</li>
+                            <li>If the probability of an event is 0.8, the odds of that event are \(O(E) = \frac{0.8}{1 - 0.8} = \frac{0.8}{0.2} = 4\).</li>
+                        </ul>
+                        </p>
+
+                        <p class="para">
+                        As the probability of an event gets closer to 1, the odds increase exponentially. This relationship helps in understanding the conversion between probability and odds in various scenarios.
+                        </p>
+                        <h2>Odds, Odds Ratio, Log-Odds</h2>
+
+                        <p class="para">Interpreting odds, odds ratio, and log odds involves understanding the relationship between these concepts in statistics, particularly in logistic regression.</p>
+
+                        <ul class="list">
+                        <li>
+                            <strong>Odds:</strong>
+                            <ul class = "list">
+                            <li>Odds represent the likelihood of success relative to failure.</li>
+                            <li>An odds of 1 means the event is equally likely to occur or not to occur.</li>
+                            <li>For instance, if the odds are 2, it means the event is twice as likely to occur as not to occur.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Odds Ratio:</strong>
+                            <ul class = "list">
+                            <li>The odds ratio compares the odds of an event happening in one group to the odds of it happening in another group.</li>
+                            <li>An odds ratio of 1 suggests no association between the two groups; values above 1 indicate a higher odds in the first group, while values below 1 indicate a lower odds.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Log Odds:</strong>
+                            <ul class = "list">
+                            <li>The log odds (logit) transformation converts odds into a linear form suitable for regression analysis.</li>
+                            <li>It's the natural logarithm of the odds.</li>
+                            <li>Log odds can take any real number, including negative and positive values.</li>
+                            <li>In logistic regression, the log odds are modeled as a linear combination of predictors.</li>
+                            </ul>
+                        </li>
+                        </ul>
+
+                        <p class="para">
+                        For example, in a study comparing the odds of heart disease between smokers and non-smokers:
+                            <ul class = "list">
+                                <li>An odds ratio of 2 for smokers implies that smokers have twice the odds of heart disease compared to non-smokers.</li>
+                                <li>A log odds value of 0 suggests that the odds are 1 (no difference between success and failure).</li>
+                                <li>A log odds value of -1 means the odds are 0.37 (odds of success are 0.37 times the odds of failure).</li>
+                            </ul>
+                        </p>
+
+                        <p class="para">
+                        Understanding odds, odds ratio, and log odds aids in comprehending the strength and direction of associations between variables, especially in logistic regression analyses.
+                        </p>
+
+                        <p class="para">To estimate the random-intercept logistic regression model, we can’t use the same lmer function
+                            that we had been using for linear models with assumed normally distributed errors.
+                            Instead, we use the glmer function:</p>
+
+                        <pre class="rcode">
+                            > mod1 &lt;- glmer(safechoice ~ age + cond + (1|sub), data=admrt,
+                            family=binomial)
+                            > summary(mod1)
+                        </pre>
+
+                        <pre class="rcode">
+                            > summary(mod1)
+                            Generalized linear mixed model fit by maximum likelihood (Laplace
+                            Approximation) ['glmerMod']
+                            Family: binomial ( logit )
+                            Formula: safechoice ~ age + cond + (1 | sub)
+                            Data: admrt
+                            AIC BIC logLik deviance df.resid
+                            11471.7 11507.5 -5730.8 11461.7 9624
+                            Random effects:
+                            Groups Name Variance Std.Dev.
+                            sub (Intercept) 1.317 1.148
+                            Number of obs: 9629, groups: sub, 81
+                            Fixed effects:
+                            Estimate Std. Error z value Pr(>|z|)
+                            (Intercept) 0.408912 0.183890 2.224 0.0262 *
+                            ageYA 0.355078 0.260692 1.362 0.1732
+                            condHighArousal 0.003828 0.055736 0.069 0.9452
+                            condLowArousal -0.012143 0.055685 -0.218 0.8274
+                        </pre>
+
+                        <ol class = "list">
+                            <li>
+                              <strong>Fixed-Effect Estimates:</strong>
+                              <p>The linear association between predictors and the log-odds of the dependent variable is obtained. For instance, a one-unit difference in age (e.g., young adult vs. older adult) predicts a 0.35 increase in the log-odds of risky choice.</p>
+                            </li>
+                            <li>
+                              <strong>Conversion to Odds Ratios:</strong>
+                              <p>To interpret the effects more intuitively, the fixed-effect estimates are exponentiated to obtain odds ratios.</p>
+                              <ul class = "list">
+                                <li>
+                                  <strong>Exponentiated Estimates:</strong>
+                                  <ul class = "list">
+                                    <li>Intercept: The odds of a safe choice are 1.51 times higher.</li>
+                                    <li>Age (YA): The odds of a safe choice are 1.43 times higher for young adults.</li>
+                                    <li>Condition (High Arousal): The odds of a safe choice are about the same as the baseline condition (OR = 1.00).</li>
+                                    <li>Condition (Low Arousal): The odds of a safe choice are 98.79% of the odds in the baseline condition.</li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                          </ol>
+                          
+                          
+
+
+              
+
+
+            
+              
+            
+
     </div>
     <div class="content5">
         <h2>General Concerns</h2>
